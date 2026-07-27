@@ -1,0 +1,16 @@
+{
+  "name": "CDPS - Child Development Portal System",
+  "short_name": "CDPS",
+  "description": "Platform all-in-one untuk pantau tumbuh kembang anak usia dini",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F8FAFC",
+  "theme_color": "#6741D9",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "1536x1024",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+import type { Metadata } from "next";
+import "./globals.css";
+
+const baseUrl = "https://lumizo.my.id";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(baseUrl),
+  title: {
+    default: "CDPS - Child Development Portal System | Pantau Tumbuh Kembang Anak | by Lumizo",
+    template: "%s | CDPS by Lumizo",
+  },
+  description:
+    "Platform all-in-one untuk pantau tumbuh kembang anak usia dini. Daily report, portofolio digital, laporan perkembangan triwulan, live CCTV, dan absensi guru dalam satu portal terpadu untuk sekolah, guru, dan orang tua.",
+  keywords: [
+    "CDPS",
+    "Child Development Portal System",
+    "tumbuh kembang anak",
+    "daily report anak",
+    "portofolio digital anak",
+    "laporan perkembangan anak",
+    "sistem informasi sekolah",
+    "platform PAUD",
+    "manajemen TK",
+    "aplikasi orang tua murid",
+    "Lumizo",
+    "sekolah anak usia dini",
+    "absensi guru geofence",
+    "CCTV sekolah",
+    "portal orang tua",
+  ],
+  applicationName: "CDPS - Child Development Portal System",
+  authors: [{ name: "Lumizo" }],
+  generator: "Next.js",
+  referrer: "origin-when-cross-origin",
+  creator: "Lumizo",
+  publisher: "Lumizo",
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  icons: {
+    icon: "/logo.svg",
+    apple: "/logo.png",
+  },
+  manifest: "/site.webmanifest",
+  openGraph: {
+    type: "website",
+    locale: "id_ID",
+    siteName: "CDPS by Lumizo",
+    title: "CDPS - Child Development Portal System | Pantau Tumbuh Kembang Anak Lebih Mudah",
+    description:
+      "Platform all-in-one untuk pantau tumbuh kembang anak usia dini. Daily report, portofolio digital, laporan triwulan, live CCTV, dan absensi guru. Solusi tepat untuk sekolah, guru, dan orang tua.",
+    url: baseUrl,
+    images: [
+      {
+        url: "/logo.png",
+        width: 1536,
+        height: 1024,
+        alt: "CDPS - Child Development Portal System by Lumizo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "CDPS - Child Development Portal System | by Lumizo",
+    description:
+      "Platform all-in-one untuk pantau tumbuh kembang anak. Daily report, portofolio digital, laporan triwulan, dan CCTV.",
+    images: ["/logo.png"],
+    creator: "@lumizo",
+    site: "@lumizo",
+  },
+  alternates: {
+    canonical: baseUrl,
+  },
+  other: {
+    "google-site-verification": "",
+    "theme-color": "#6741D9",
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "black-translucent",
+    "mobile-web-app-capable": "yes",
+  },
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="id" className="h-full scroll-smooth">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
+      <body className="min-h-full flex flex-col">{children}</body>
+    </html>
+  );
+}
