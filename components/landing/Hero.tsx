@@ -44,7 +44,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 w-full">
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16 w-full">
         <motion.div variants={containerVariants} initial="hidden" animate="visible" className="grid lg:grid-cols-5 gap-8 lg:gap-12 items-center">
           <div className="lg:col-span-3 text-center lg:text-left">
             <motion.div variants={itemVariants} className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm text-white text-xs sm:text-sm px-4 py-2 rounded-full mb-6 border border-white/10">
