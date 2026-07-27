@@ -52,7 +52,7 @@ export default function Hero() {
               Platform Manajemen Tumbuh Kembang Anak
             </motion.div>
 
-            <motion.h1 variants={itemVariants} className="text-4xl sm:text-5xl lg:text-7xl xl:text-8xl font-bold text-white leading-none mb-6">
+            <motion.h1 variants={itemVariants} className="text-3xl sm:text-4xl lg:text-6xl xl:text-6xl font-bold text-white leading-none mb-6">
               Pantau Tumbuh
               <br />
               Kembang{" "}
