@@ -24,10 +24,7 @@ export default function Footer() {
                 <Icon name="mail" size={18} className="text-white/70" />
               </a>
               <a href="https://wa.me/6289656059612" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors" aria-label="WhatsApp">
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" className="text-white/70">
-                  <path d="M2 16l1.11-4.05A7 7 0 119 16H2z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                  <path d="M6 7.5c0-.276.224-.5.5-.5h.5c.276 0 .5.224.5.5V8a2 2 0 002 2h.5c.276 0 .5.224.5.5v.5a.5.5 0 01-.5.5H9a3 3 0 01-3-3v-.5z" stroke="currentColor" strokeWidth="1" strokeLinecap="round" fill="none" />
-                </svg>
+                <Icon name="whatsapp" size={18} className="text-white/70" />
               </a>
             </div>
           </div>
