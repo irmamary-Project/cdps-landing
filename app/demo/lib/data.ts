@@ -215,3 +215,56 @@ export const DEMO_STATS = {
   portofolio_bulan_ini: 256,
   kehadiran_hari_ini: "94%",
 };
+
+export const DEMO_CLASSES = [
+  { id: "c1", nama: "KB", usia: "2-3 tahun", siswa: 8, wali: "Bu Rina", tahun: "2026/2027", status: "Aktif" },
+  { id: "c2", nama: "TK A", usia: "4-5 tahun", siswa: 20, wali: "Bu Sari", tahun: "2026/2027", status: "Aktif" },
+  { id: "c3", nama: "TK B", usia: "5-6 tahun", siswa: 20, wali: "Pak Budi", tahun: "2026/2027", status: "Aktif" },
+];
+
+export const DEMO_STUDENTS_FULL = [
+  { id: "s1", nama: "Aisyah Putri", kelas: "TK A", ortu: "Ibu Dewi", wa: "0812-3456-7890", status: "Aktif", tgl_masuk: "2025-07-15" },
+  { id: "s2", nama: "Budi Santoso", kelas: "TK B", ortu: "Pak Joko", wa: "0812-3456-7891", status: "Aktif", tgl_masuk: "2024-07-15" },
+  { id: "s3", nama: "Citra Dewi", kelas: "TK A", ortu: "Ibu Ani", wa: "0812-3456-7892", status: "Aktif", tgl_masuk: "2026-01-10" },
+  { id: "s4", nama: "Dimas Prasetyo", kelas: "KB", ortu: "Pak Agus", wa: "0812-3456-7893", status: "Aktif", tgl_masuk: "2026-07-01" },
+  { id: "s5", nama: "Erika Fitriani", kelas: "KB", ortu: "Ibu Sari", wa: "0812-3456-7894", status: "Aktif", tgl_masuk: "2026-07-01" },
+  { id: "s6", nama: "Fajar Ramadhan", kelas: "TK B", ortu: "Pak Rudi", wa: "0812-3456-7895", status: "Alumni", tgl_masuk: "2024-07-15" },
+];
+
+export const DEMO_NOTIFICATIONS = [
+  { id: "n1", jenis: "laporan", judul: "Daily Report Aisyah", isi: "Bu Rina mengirim laporan harian Aisyah — Hadir, mood senang", waktu: "2 jam lalu", dibaca: false, role: "guru" },
+  { id: "n2", jenis: "pesan", judul: "Catatan dari Ibu Dewi", isi: "Ibu Dewi menulis catatan: \"Mohon perhatikan asupan makan Aisyah\"", waktu: "1 hari lalu", dibaca: false, role: "guru" },
+  { id: "n3", jenis: "sistem", judul: "Pengingat Laporan", isi: "3 laporan harian belum dikirim untuk hari ini", waktu: "3 jam lalu", dibaca: false, role: "guru" },
+  { id: "n4", jenis: "laporan", judul: "Portofolio Baru Budi", isi: "Pak Budi mengupload 2 foto portofolio Budi — Olahraga & Bermain", waktu: "1 hari lalu", dibaca: true, role: "ortu" },
+  { id: "n5", jenis: "sistem", judul: "Rapor Tersedia", isi: "Laporan triwulan Aisyah sudah tersedia. Silakan unduh.", waktu: "3 hari lalu", dibaca: true, role: "ortu" },
+  { id: "n6", jenis: "pesan", judul: "Pesan dari Bu Rina", isi: "Bu Rina mengirim pesan: \"Aisyah mengalami peningkatan dalam aspek sosial\"", waktu: "5 jam lalu", dibaca: false, role: "ortu" },
+  { id: "n7", jenis: "laporan", judul: "Daily Report Budi", isi: "Pak Budi mengirim laporan Budi — Izin, tidak hadir", waktu: "1 hari lalu", dibaca: true, role: "guru" },
+  { id: "n8", jenis: "sistem", judul: "Absensi Guru", isi: "Bu Sari sudah check-in pukul 07:15", waktu: "8 jam lalu", dibaca: true, role: "admin" },
+  { id: "n9", jenis: "pesan", judul: "Pesan dari Pak Joko", isi: "Pak Joko (ortu Budi) meminta jadwal pertemuan", waktu: "2 hari lalu", dibaca: false, role: "guru" },
+  { id: "n10", jenis: "laporan", judul: "Daily Report Citra", isi: "Bu Rina mengirim laporan Citra — Hadir, mood biasa", waktu: "6 jam lalu", dibaca: false, role: "guru" },
+  { id: "n11", jenis: "sistem", judul: "Backup Data", isi: "Backup data mingguan berhasil. 12,4 MB tersimpan.", waktu: "12 jam lalu", dibaca: true, role: "admin" },
+  { id: "n12", jenis: "laporan", judul: "Portofolio Baru Citra", isi: "Bu Rina mengupload 2 foto portofolio Citra — Mewarnai & Berkebun", waktu: "3 hari lalu", dibaca: true, role: "ortu" },
+];
+
+export const DEMO_HISTORY_REPORTS = [
+  { id: "hr1", siswa: "Aisyah Putri", avatar: "A", kelas: "TK A", tanggal: "2026-07-28", sesi: "Pagi", kehadiran: "Hadir", mood: "senang", observasi: "Aisyah sangat antusias mengikuti kegiatan hari ini. Hafal surat An-Nas dengan lancar.", status: "terkirim" },
+  { id: "hr2", siswa: "Aisyah Putri", avatar: "A", kelas: "TK A", tanggal: "2026-07-27", sesi: "Full Day", kehadiran: "Hadir", mood: "senang", observasi: "Mengikuti kegiatan memasak dengan baik. Bisa bergiliran dengan teman.", status: "terkirim" },
+  { id: "hr3", siswa: "Aisyah Putri", avatar: "A", kelas: "TK A", tanggal: "2026-07-25", sesi: "Pagi", kehadiran: "Hadir", mood: "biasa", observasi: "Sedikit kurang fokus hari ini. Mungkin kurang tidur.", status: "terkirim" },
+  { id: "hr4", siswa: "Aisyah Putri", avatar: "A", kelas: "TK A", tanggal: "2026-07-24", sesi: "Siang", kehadiran: "Izin", mood: "–", observasi: "Izin karena demam ringan.", status: "terkirim" },
+  { id: "hr5", siswa: "Budi Santoso", avatar: "B", kelas: "TK B", tanggal: "2026-07-28", sesi: "Pagi", kehadiran: "Hadir", mood: "senang", observasi: "Budi aktif dalam kegiatan olahraga. Mulai bisa berbagi mainan dengan teman.", status: "terkirim" },
+  { id: "hr6", siswa: "Budi Santoso", avatar: "B", kelas: "TK B", tanggal: "2026-07-27", sesi: "Pagi", kehadiran: "Hadir", mood: "marah", observasi: "Budi sedikit rewel hari ini. Masih belajar mengelola emosi saat bergantian mainan.", status: "terkirim" },
+  { id: "hr7", siswa: "Budi Santoso", avatar: "B", kelas: "TK B", tanggal: "2026-07-24", sesi: "Full Day", kehadiran: "Hadir", mood: "senang", observasi: "Hari yang baik! Budi mau berbagi bekal dengan teman.", status: "terkirim" },
+  { id: "hr8", siswa: "Citra Dewi", avatar: "C", kelas: "TK A", tanggal: "2026-07-28", sesi: "Pagi", kehadiran: "Hadir", mood: "biasa", observasi: "Citra menunjukkan bakat seni. Hasil mewarnainya rapi dan penuh detail.", status: "terkirim" },
+  { id: "hr9", siswa: "Citra Dewi", avatar: "C", kelas: "TK A", tanggal: "2026-07-26", sesi: "Pagi", kehadiran: "Hadir", mood: "senang", observasi: "Citra sangat menikmati kegiatan berkebun. Senang menyiram tanaman.", status: "terkirim" },
+  { id: "hr10", siswa: "Citra Dewi", avatar: "C", kelas: "TK A", tanggal: "2026-07-22", sesi: "Full Day", kehadiran: "Sakit", mood: "–", observasi: "Citra pulang lebih awal karena demam.", status: "terkirim" },
+];
+
+export const DEMO_HISTORY_PORTOFOLIO = [
+  { id: "hp1", siswa: "Aisyah Putri", avatar: "A", kelas: "TK A", tanggal: "2026-07-27", fitrah: ["keimanan", "belajar"], foto: "https://picsum.photos/seed/haisyah1/400/400", judul: "Mengaji & Bercerita", observasi: "Aisyah berhasil menghafal surat An-Nas dan aktif bercerita di depan kelas." },
+  { id: "hp2", siswa: "Aisyah Putri", avatar: "A", kelas: "TK A", tanggal: "2026-07-22", fitrah: ["adab", "keimanan"], foto: "https://picsum.photos/seed/haisyah2/400/400", judul: "Praktik Salam & Tolong", observasi: "Aisyah selalu mengucapkan salam dan tolong saat meminta bantuan kepada guru." },
+  { id: "hp3", siswa: "Aisyah Putri", avatar: "A", kelas: "TK A", tanggal: "2026-07-18", fitrah: ["bakat", "belajar"], foto: "https://picsum.photos/seed/haisyah3/400/400", judul: "Hasil Mewarnai", observasi: "Aisyah mewarnai gambar pemandangan dengan rapi dan penuh detail." },
+  { id: "hp4", siswa: "Budi Santoso", avatar: "B", kelas: "TK B", tanggal: "2026-07-26", fitrah: ["jasmani", "sosialitas"], foto: "https://picsum.photos/seed/hbudi1/400/400", judul: "Olahraga & Bermain Peran", observasi: "Budi aktif dalam kegiatan olahraga dan bermain peran sebagai dokter." },
+  { id: "hp5", siswa: "Budi Santoso", avatar: "B", kelas: "TK B", tanggal: "2026-07-20", fitrah: ["sosialitas", "belajar"], foto: "https://picsum.photos/seed/hbudi2/400/400", judul: "Bermain Bersama", observasi: "Budi mulai mau berbagi mainan dengan teman tanpa diminta." },
+  { id: "hp6", siswa: "Citra Dewi", avatar: "C", kelas: "TK A", tanggal: "2026-07-25", fitrah: ["bakat", "belajar"], foto: "https://picsum.photos/seed/hcitra1/400/400", judul: "Mewarnai & Menggambar", observasi: "Citra menunjukkan bakat seni. Hasil mewarnainya sangat rapi." },
+  { id: "hp7", siswa: "Citra Dewi", avatar: "C", kelas: "TK A", tanggal: "2026-07-19", fitrah: ["jasmani", "keimanan"], foto: "https://picsum.photos/seed/hcitra2/400/400", judul: "Berkebun & Mengaji", observasi: "Citra senang menyiram tanaman dan mengaji dengan suara merdu." },
+];

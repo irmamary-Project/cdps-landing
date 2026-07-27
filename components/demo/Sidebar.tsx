@@ -4,13 +4,39 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import Logo from "@/components/Logo";
+import {
+  LayoutDashboard,
+  ClipboardList,
+  FolderOpen,
+  BarChart3,
+  Camera,
+  Users,
+  GraduationCap,
+  Bell,
+  Clock,
+  Archive,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
-const NAV = [
-  { href: "/demo", label: "Dashboard", icon: "📊" },
-  { href: "/demo/daily-report", label: "Daily Report", icon: "📋" },
-  { href: "/demo/portofolio", label: "Portofolio", icon: "📷" },
-  { href: "/demo/laporan", label: "Laporan Triwulan", icon: "📈" },
-  { href: "#", label: "CCTV", icon: "📹", disabled: true },
+interface NavItem {
+  href: string;
+  label: string;
+  icon: LucideIcon;
+  disabled?: boolean;
+  new?: boolean;
+}
+
+const NAV: NavItem[] = [
+  { href: "/demo", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/demo/daily-report", label: "Daily Report", icon: ClipboardList },
+  { href: "/demo/portofolio", label: "Portofolio", icon: FolderOpen },
+  { href: "/demo/laporan", label: "Laporan Triwulan", icon: BarChart3 },
+  { href: "/demo/riwayat-daily-report", label: "Riwayat Daily Report", icon: Clock, new: true },
+  { href: "/demo/riwayat-portofolio", label: "Riwayat Portofolio", icon: Archive, new: true },
+  { href: "/demo/manajemen-siswa", label: "Manajemen Siswa", icon: Users, new: true },
+  { href: "/demo/manajemen-kelas", label: "Manajemen Kelas", icon: GraduationCap, new: true },
+  { href: "/demo/notifikasi", label: "Notifikasi", icon: Bell, new: true },
+  { href: "#", label: "CCTV", icon: Camera, disabled: true },
 ];
 
 export default function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
@@ -33,15 +59,16 @@ export default function Sidebar({ open, onClose }: { open: boolean; onClose: () 
         </div>
       </div>
 
-      <nav className="flex-1 px-3 py-4 space-y-0.5">
+      <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
         {NAV.map((item) => {
+          const Icon = item.icon;
           const active = item.href !== "#" && pathname === item.href;
           return item.disabled ? (
             <div
               key={item.label}
               className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/30 cursor-not-allowed"
             >
-              <span>{item.icon}</span>
+              <Icon size={18} />
               <span className="flex-1">{item.label}</span>
               <span className="text-[10px] bg-white/10 px-1.5 py-0.5 rounded">Segera</span>
             </div>
@@ -57,8 +84,9 @@ export default function Sidebar({ open, onClose }: { open: boolean; onClose: () 
                   : "text-white/60 hover:text-white hover:bg-white/8"
               )}
             >
-              <span>{item.icon}</span>
-              <span>{item.label}</span>
+              <Icon size={18} />
+              <span className="flex-1">{item.label}</span>
+              {item.new && <span className="text-[10px] bg-[#FBD321] text-[#6741D9] px-1.5 py-0.5 rounded-full font-bold">Baru</span>}
             </Link>
           );
         })}
@@ -80,12 +108,10 @@ export default function Sidebar({ open, onClose }: { open: boolean; onClose: () 
 
   return (
     <>
-      {/* Mobile overlay */}
       {open && (
         <div className="lg:hidden fixed inset-0 z-50 bg-black/50" onClick={onClose} />
       )}
 
-      {/* Mobile drawer */}
       <aside
         className={clsx(
           "lg:hidden fixed top-0 left-0 z-50 h-full w-64 flex flex-col transition-transform duration-300 bg-[#6741D9]",
@@ -95,7 +121,6 @@ export default function Sidebar({ open, onClose }: { open: boolean; onClose: () 
         {content}
       </aside>
 
-      {/* Desktop sidebar */}
       <aside className="hidden lg:flex w-60 flex-shrink-0 flex-col min-h-screen sticky top-0 bg-[#6741D9]">
         {content}
       </aside>
