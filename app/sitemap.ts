@@ -1,38 +1,54 @@
 import type { MetadataRoute } from "next";
+import { blogPosts } from "@/lib/blog-posts";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://lumizo.my.id";
+  const baseUrl = "https://cdps.lumizo.my.id";
 
-  return [
+  const staticPages = [
     {
       url: baseUrl,
       lastModified: new Date(),
-      changeFrequency: "weekly",
+      changeFrequency: "weekly" as const,
       priority: 1,
+    },
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/demo`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: "monthly" as const,
       priority: 0.8,
     },
     {
       url: `${baseUrl}/demo/daily-report`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: "monthly" as const,
       priority: 0.5,
     },
     {
       url: `${baseUrl}/demo/laporan`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: "monthly" as const,
       priority: 0.5,
     },
     {
       url: `${baseUrl}/demo/portofolio`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: "monthly" as const,
       priority: 0.5,
     },
   ];
+
+  const blogPages = blogPosts.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: new Date(post.date),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
+  return [...staticPages, ...blogPages];
 }

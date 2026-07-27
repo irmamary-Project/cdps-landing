@@ -18,11 +18,11 @@ export default function LandingPage() {
             <Logo size="sm" />
           </a>
           <div className="flex items-center gap-4 sm:gap-6">
+            <a href="/blog" className="text-sm text-gray-500 hover:text-[#6741D9] font-medium hidden sm:block transition-colors">
+              Blog
+            </a>
             <a href="#fitur" className="text-sm text-gray-500 hover:text-[#6741D9] font-medium hidden sm:block transition-colors">
               Fitur
-            </a>
-            <a href="#kontak" className="text-sm text-gray-500 hover:text-[#6741D9] font-medium hidden sm:block transition-colors">
-              FAQ
             </a>
             <a
               href="/demo"

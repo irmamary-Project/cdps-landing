@@ -30,13 +30,12 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-white font-bold text-sm mb-4 uppercase tracking-wider">Fitur</h4>
+            <h4 className="text-white font-bold text-sm mb-4 uppercase tracking-wider">Menu</h4>
             <ul className="space-y-3 text-sm">
               <li><a href="/demo/daily-report" className="hover:text-white transition-colors">Daily Report</a></li>
               <li><a href="/demo/portofolio" className="hover:text-white transition-colors">Portofolio Digital</a></li>
               <li><a href="/demo/laporan" className="hover:text-white transition-colors">Laporan Perkembangan</a></li>
-              <li className="text-white/40">Live CCTV</li>
-              <li className="text-white/40">Absensi Guru</li>
+              <li><a href="/blog" className="hover:text-white transition-colors">Blog</a></li>
             </ul>
           </div>
 

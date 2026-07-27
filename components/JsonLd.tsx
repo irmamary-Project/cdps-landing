@@ -3,8 +3,8 @@ const organizationSchema = {
   "@type": "Organization",
   name: "Lumizo",
   alternateName: "CDPS by Lumizo",
-  url: "https://lumizo.my.id",
-  logo: "https://lumizo.my.id/logo.png",
+  url: "https://cdps.lumizo.my.id",
+  logo: "https://cdps.lumizo.my.id/logo.png",
   description:
     "Penyedia platform Child Development Portal System (CDPS) untuk sekolah anak usia dini dalam mengelola dan memantau perkembangan anak.",
   contactPoint: [
@@ -24,7 +24,7 @@ const websiteSchema = {
   "@type": "WebSite",
   name: "CDPS - Child Development Portal System",
   alternateName: "CDPS by Lumizo",
-  url: "https://lumizo.my.id",
+  url: "https://cdps.lumizo.my.id",
   description:
     "Platform all-in-one untuk pantau tumbuh kembang anak. Daily report, portofolio digital, laporan triwulan, CCTV, dan absensi guru.",
   inLanguage: "id",
