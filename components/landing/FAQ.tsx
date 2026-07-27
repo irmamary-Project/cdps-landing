@@ -110,13 +110,24 @@ export default function FAQ() {
         >
           <p className="text-gray-700 font-semibold mb-2">Masih punya pertanyaan lain?</p>
           <p className="text-gray-500 text-sm mb-4">Tim kami siap membantu Anda.</p>
-          <a
-            href="mailto:cdps@lumizo.my.id"
-            className="group inline-flex items-center gap-2 bg-[#6741D9] hover:bg-[#7C5CF7] text-white font-bold px-6 py-3 rounded-full text-sm transition-all hover:shadow-lg"
-          >
-            <Icon name="mail" size={18} className="text-white" />
-            cdps@lumizo.my.id
-          </a>
+          <div className="flex items-center justify-center gap-3 flex-wrap">
+            <a
+              href="/kontak"
+              className="inline-flex items-center gap-2 bg-[#6741D9] hover:bg-[#7C5CF7] text-white font-bold px-6 py-3 rounded-full text-sm transition-all hover:shadow-lg"
+            >
+              Hubungi Kami
+              <Icon name="arrow-right" size={14} />
+            </a>
+            <a
+              href="https://wa.me/6289656059612"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-[#04B5BB] hover:bg-[#03A0A8] text-white font-bold px-6 py-3 rounded-full text-sm transition-all hover:shadow-lg"
+            >
+              <Icon name="whatsapp" size={16} />
+              WhatsApp
+            </a>
+          </div>
         </motion.div>
       </div>
     </section>

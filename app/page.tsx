@@ -5,6 +5,7 @@ import Features from "@/components/landing/Features";
 import ForWho from "@/components/landing/ForWho";
 import HowItWorks from "@/components/landing/HowItWorks";
 import DemoPreview from "@/components/landing/DemoPreview";
+import Pricing from "@/components/landing/Pricing";
 import FAQ from "@/components/landing/FAQ";
 import Footer from "@/components/landing/Footer";
 
@@ -20,6 +21,12 @@ export default function LandingPage() {
           <div className="flex items-center gap-4 sm:gap-6">
             <a href="/blog" className="text-sm text-gray-500 hover:text-[#6741D9] font-medium hidden sm:block transition-colors">
               Blog
+            </a>
+            <a href="#pricing" className="text-sm text-gray-500 hover:text-[#6741D9] font-medium hidden sm:block transition-colors">
+              Harga
+            </a>
+            <a href="/kontak" className="text-sm text-gray-500 hover:text-[#6741D9] font-medium hidden sm:block transition-colors">
+              Kontak
             </a>
             <a href="#fitur" className="text-sm text-gray-500 hover:text-[#6741D9] font-medium hidden sm:block transition-colors">
               Fitur
@@ -40,6 +47,7 @@ export default function LandingPage() {
           <Features />
           <ForWho />
           <HowItWorks />
+          <Pricing />
           <DemoPreview />
           <FAQ />
         </div>
