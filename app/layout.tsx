@@ -61,9 +61,9 @@ export const metadata: Metadata = {
     url: baseUrl,
     images: [
       {
-        url: "/logo.png",
-        width: 1536,
-        height: 1024,
+        url: "/opengraph-image.jpg",
+        width: 1200,
+        height: 630,
         alt: "CDPS - Child Development Portal System by Lumizo",
       },
     ],
@@ -73,7 +73,7 @@ export const metadata: Metadata = {
     title: "CDPS - Child Development Portal System | by Lumizo",
     description:
       "Platform all-in-one untuk pantau tumbuh kembang anak. Daily report, portofolio digital, laporan triwulan, dan CCTV.",
-    images: ["/logo.png"],
+    images: ["/opengraph-image.jpg"],
     creator: "@lumizo",
     site: "@lumizo",
   },
