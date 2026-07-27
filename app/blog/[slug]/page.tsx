@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import Logo from "@/components/Logo";
 import { blogPosts } from "@/lib/blog-posts";
 import { Icon } from "@/components/decorative/FeatureIcon";
 
@@ -68,7 +69,7 @@ export default async function BlogPostPage({
       <nav aria-label="Navigasi utama" className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100/50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <Link href="/" aria-label="CDPS - Beranda">
-            <span className="text-xl font-bold text-[#6741D9]">CDPS</span>
+            <Logo size="sm" />
           </Link>
           <div className="flex items-center gap-4 sm:gap-6">
             <Link href="/" className="text-sm text-gray-500 hover:text-[#6741D9] font-medium transition-colors">
