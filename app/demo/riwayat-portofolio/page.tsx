@@ -1,19 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { DEMO_HISTORY_PORTOFOLIO, FITRAH_LIST } from "../lib/data";
+import { DEMO_HISTORY_PORTOFOLIO, ASPEK_LIST } from "../lib/data";
 import { Search, CalendarDays } from "lucide-react";
 
 export default function RiwayatPortofolioPage() {
   const [siswa, setSiswa] = useState("");
-  const [fitrah, setFitrah] = useState("");
+  const [aspek, setAspek] = useState("");
   const [tanggalAwal, setTanggalAwal] = useState("");
   const [tanggalAkhir, setTanggalAkhir] = useState("");
   const [lightbox, setLightbox] = useState<string | null>(null);
 
   const filtered = DEMO_HISTORY_PORTOFOLIO.filter((p) => {
     if (siswa && p.siswa !== siswa) return false;
-    if (fitrah && !p.fitrah.includes(fitrah)) return false;
+    if (aspek && !p.aspek.includes(aspek)) return false;
     if (tanggalAwal && p.tanggal < tanggalAwal) return false;
     if (tanggalAkhir && p.tanggal > tanggalAkhir) return false;
     return true;
@@ -32,9 +32,9 @@ export default function RiwayatPortofolioPage() {
             <option value="">Semua Siswa</option>
             {[...new Set(DEMO_HISTORY_PORTOFOLIO.map((p) => p.siswa))].map((s) => <option key={s} value={s}>{s}</option>)}
           </select>
-          <select value={fitrah} onChange={(e) => setFitrah(e.target.value)} className="text-sm border border-gray-200 rounded-lg px-3 py-2 text-gray-600 bg-white">
-            <option value="">Semua Fitrah</option>
-            {FITRAH_LIST.map((f) => <option key={f.key} value={f.key}>{f.label}</option>)}
+          <select value={aspek} onChange={(e) => setAspek(e.target.value)} className="text-sm border border-gray-200 rounded-lg px-3 py-2 text-gray-600 bg-white">
+            <option value="">Semua Aspek</option>
+            {ASPEK_LIST.map((f) => <option key={f.key} value={f.key}>{f.label}</option>)}
           </select>
           <input type="date" value={tanggalAwal} onChange={(e) => setTanggalAwal(e.target.value)} className="text-sm border border-gray-200 rounded-lg px-3 py-2 text-gray-600 bg-white" />
           <span className="hidden sm:inline text-gray-300 self-center">–</span>
@@ -62,8 +62,8 @@ export default function RiwayatPortofolioPage() {
                 <h3 className="text-sm font-bold text-gray-900 mb-1">{p.judul}</h3>
                 <p className="text-xs text-gray-500 leading-relaxed mb-3">{p.observasi}</p>
                 <div className="flex flex-wrap gap-1.5">
-                  {p.fitrah.map((fk) => {
-                    const label = FITRAH_LIST.find((f) => f.key === fk)?.label || fk;
+                  {p.aspek.map((fk) => {
+                    const label = ASPEK_LIST.find((f) => f.key === fk)?.label || fk;
                     return <span key={fk} className="text-[11px] bg-[#EDE9FE] text-[#6741D9] px-2 py-0.5 rounded-full">{label}</span>;
                   })}
                 </div>

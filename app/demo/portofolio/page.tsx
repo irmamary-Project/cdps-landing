@@ -1,6 +1,6 @@
 "use client";
 
-import { DEMO_PORTOFOLIO, FITRAH_LIST } from "../lib/data";
+import { DEMO_PORTOFOLIO } from "../lib/data";
 import { useState } from "react";
 
 export default function PortofolioPage() {
@@ -47,17 +47,6 @@ export default function PortofolioPage() {
                     </div>
                   </button>
                 ))}
-              </div>
-
-              <div className="flex flex-wrap gap-1.5 mt-3">
-                {p.fitrah.map((fk) => {
-                  const label = FITRAH_LIST.find((f) => f.key === fk)?.label || fk;
-                  return (
-                    <span key={fk} className="text-[11px] bg-[#EDE9FE] text-[#6741D9] px-2 py-0.5 rounded-full">
-                      {label}
-                    </span>
-                  );
-                })}
               </div>
 
               <p className="text-xs text-gray-600 mt-3 leading-relaxed">{p.observasi}</p>

@@ -10,15 +10,15 @@ export const DEMO_STUDENTS = [
   { id: "s3", nama: "Citra Dewi", kelas: "TK A", jenis_kelamin: "P" as const, usia: "3 tahun" },
 ];
 
-export const FITRAH_LIST = [
-  { key: "keimanan", label: "Keimanan" },
-  { key: "belajar", label: "Belajar" },
-  { key: "bakat", label: "Bakat" },
-  { key: "seksualitas", label: "Seksualitas" },
-  { key: "jasmani", label: "Jasmani" },
+export const ASPEK_LIST = [
+  { key: "motorik", label: "Motorik" },
+  { key: "kognitif", label: "Kognitif" },
   { key: "bahasa", label: "Bahasa" },
-  { key: "sosialitas", label: "Sosial" },
-  { key: "adab", label: "Adab" },
+  { key: "sosial", label: "Sosial Emosional" },
+  { key: "seni", label: "Seni & Kreativitas" },
+  { key: "agama", label: "Nilai Agama" },
+  { key: "mandiri", label: "Kemandirian" },
+  { key: "fisik", label: "Fisik" },
 ];
 
 export const MOOD_OPTIONS = [
@@ -35,16 +35,8 @@ export const CAPAIAN_OPTIONS = [
   { value: "BB", label: "Belum Berkembang (BB)" },
 ];
 
-const fitrahKeys = FITRAH_LIST.map((f) => f.key);
-
 function randomMood() {
   return MOOD_OPTIONS[Math.floor(Math.random() * MOOD_OPTIONS.length)].value;
-}
-
-function randomFitrah() {
-  const count = 2 + Math.floor(Math.random() * 4);
-  const shuffled = [...fitrahKeys].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, count);
 }
 
 function randomSiswa() {
@@ -106,7 +98,6 @@ export const DEMO_DAILY_REPORTS = dates.map((date, i) => {
       "Salam",
       "Cuci tangan",
     ],
-    fitrah_distimulasi: randomFitrah(),
     observasi_guru: [
       "Anak sangat antusias mengikuti kegiatan hari ini. Aktif bertanya dan bermain dengan teman-teman.",
       "Anak bermain dengan fokus, namun masih perlu dibimbing dalam kegiatan bersosialisasi.",
@@ -132,7 +123,6 @@ export const DEMO_PORTOFOLIO = [
     siswa: DEMO_STUDENTS[0],
     tanggal: "2026-07-27",
     sesi: "Pagi",
-    fitrah: ["keimanan", "belajar", "bahasa"],
     observasi: "Aisyah berhasil menghafal surat An-Nas dengan lancar. Juga aktif dalam kegiatan bercerita.",
     catatan_ortu: "Terima kasih sudah membimbing Aisyah.",
     media: [
@@ -147,7 +137,6 @@ export const DEMO_PORTOFOLIO = [
     siswa: DEMO_STUDENTS[1],
     tanggal: "2026-07-26",
     sesi: "Siang",
-    fitrah: ["jasmani", "sosialitas"],
     observasi: "Budi aktif dalam kegiatan olahraga dan bermain peran. Mulai bisa berbagi mainan dengan teman.",
     catatan_ortu: "",
     media: [
@@ -161,7 +150,6 @@ export const DEMO_PORTOFOLIO = [
     siswa: DEMO_STUDENTS[2],
     tanggal: "2026-07-25",
     sesi: "Pagi",
-    fitrah: ["bakat", "belajar"],
     observasi: "Citra menunjukkan bakat seni yang luar biasa. Hasil mewarnainya sangat rapi dan penuh detail.",
     catatan_ortu: "Citra sangat suka menggambar di rumah juga.",
     media: [
@@ -175,7 +163,6 @@ export const DEMO_PORTOFOLIO = [
     siswa: DEMO_STUDENTS[0],
     tanggal: "2026-07-22",
     sesi: "Full Day",
-    fitrah: ["adab", "keimanan"],
     observasi: "Aisyah menunjukkan adab yang baik. Selalu mengucapkan salam dan tolong saat meminta bantuan.",
     catatan_ortu: "Kami juga melatih adab di rumah. Senang melihat perkembangannya.",
     media: [
@@ -192,14 +179,14 @@ export const DEMO_LAPORAN = {
   periode: "Triwulan 2",
   tahun: 2026,
   penilaian: {
-    keimanan: { capaian: "BSB" as const, catatan: "Hafal 5 surat pendek, rajin mengaji" },
-    belajar: { capaian: "BSH" as const, catatan: "Mulai mengenal huruf hijaiyah dan angka 1-20" },
-    bakat: { capaian: "BSH" as const, catatan: "Menunjukkan minat pada seni dan mewarnai" },
-    seksualitas: { capaian: "MB" as const, catatan: "Mulai memahami perbedaan gender" },
-    jasmani: { capaian: "BSB" as const, catatan: "Motorik kasar dan halus berkembang baik" },
-    bahasa: { capaian: "BSH" as const, catatan: "Mampu bercerita dengan kalimat sederhana" },
-    sosialitas: { capaian: "BSH" as const, catatan: "Mulai bisa bermain dan berbagi dengan teman" },
-    adab: { capaian: "BSB" as const, catatan: "Selalu mengucapkan salam, tolong, dan terima kasih" },
+    motorik: { capaian: "BSB" as const, catatan: "Motorik kasar dan halus berkembang baik. Mampu memegang pensil dengan benar." },
+    kognitif: { capaian: "BSH" as const, catatan: "Mulai mengenal huruf dan angka 1-20. Mampu mencocokkan gambar." },
+    bahasa: { capaian: "BSH" as const, catatan: "Mampu bercerita dengan kalimat sederhana dan mengekspresikan keinginan." },
+    sosial: { capaian: "BSH" as const, catatan: "Mulai bisa bermain dan berbagi dengan teman. Perlu didampingi saat konflik." },
+    seni: { capaian: "BSB" as const, catatan: "Menunjukkan minat besar pada seni dan mewarnai. Hasil karya rapi." },
+    agama: { capaian: "BSB" as const, catatan: "Hafal 5 surat pendek, rajin mengaji, dan selalu mengucapkan salam." },
+    mandiri: { capaian: "MB" as const, catatan: "Mulai belajar memakai baju sendiri dan merapikan mainan." },
+    fisik: { capaian: "BSB" as const, catatan: "Berlari, melompat, dan menaiki tangga dengan baik." },
   },
   catatan_umum:
     "Aisyah menunjukkan perkembangan yang sangat baik di semua aspek. Anak aktif, ceria, dan memiliki semangat belajar yang tinggi. Perlu terus didukung terutama dalam aspek sosialisasi dan interaksi dengan teman sebaya.",
@@ -260,11 +247,11 @@ export const DEMO_HISTORY_REPORTS = [
 ];
 
 export const DEMO_HISTORY_PORTOFOLIO = [
-  { id: "hp1", siswa: "Aisyah Putri", avatar: "A", kelas: "TK A", tanggal: "2026-07-27", fitrah: ["keimanan", "belajar"], foto: "https://picsum.photos/seed/haisyah1/400/400", judul: "Mengaji & Bercerita", observasi: "Aisyah berhasil menghafal surat An-Nas dan aktif bercerita di depan kelas." },
-  { id: "hp2", siswa: "Aisyah Putri", avatar: "A", kelas: "TK A", tanggal: "2026-07-22", fitrah: ["adab", "keimanan"], foto: "https://picsum.photos/seed/haisyah2/400/400", judul: "Praktik Salam & Tolong", observasi: "Aisyah selalu mengucapkan salam dan tolong saat meminta bantuan kepada guru." },
-  { id: "hp3", siswa: "Aisyah Putri", avatar: "A", kelas: "TK A", tanggal: "2026-07-18", fitrah: ["bakat", "belajar"], foto: "https://picsum.photos/seed/haisyah3/400/400", judul: "Hasil Mewarnai", observasi: "Aisyah mewarnai gambar pemandangan dengan rapi dan penuh detail." },
-  { id: "hp4", siswa: "Budi Santoso", avatar: "B", kelas: "TK B", tanggal: "2026-07-26", fitrah: ["jasmani", "sosialitas"], foto: "https://picsum.photos/seed/hbudi1/400/400", judul: "Olahraga & Bermain Peran", observasi: "Budi aktif dalam kegiatan olahraga dan bermain peran sebagai dokter." },
-  { id: "hp5", siswa: "Budi Santoso", avatar: "B", kelas: "TK B", tanggal: "2026-07-20", fitrah: ["sosialitas", "belajar"], foto: "https://picsum.photos/seed/hbudi2/400/400", judul: "Bermain Bersama", observasi: "Budi mulai mau berbagi mainan dengan teman tanpa diminta." },
-  { id: "hp6", siswa: "Citra Dewi", avatar: "C", kelas: "TK A", tanggal: "2026-07-25", fitrah: ["bakat", "belajar"], foto: "https://picsum.photos/seed/hcitra1/400/400", judul: "Mewarnai & Menggambar", observasi: "Citra menunjukkan bakat seni. Hasil mewarnainya sangat rapi." },
-  { id: "hp7", siswa: "Citra Dewi", avatar: "C", kelas: "TK A", tanggal: "2026-07-19", fitrah: ["jasmani", "keimanan"], foto: "https://picsum.photos/seed/hcitra2/400/400", judul: "Berkebun & Mengaji", observasi: "Citra senang menyiram tanaman dan mengaji dengan suara merdu." },
+  { id: "hp1", siswa: "Aisyah Putri", avatar: "A", kelas: "TK A", tanggal: "2026-07-27", aspek: ["agama", "bahasa"], foto: "https://picsum.photos/seed/haisyah1/400/400", judul: "Mengaji & Bercerita", observasi: "Aisyah berhasil menghafal surat An-Nas dan aktif bercerita di depan kelas." },
+  { id: "hp2", siswa: "Aisyah Putri", avatar: "A", kelas: "TK A", tanggal: "2026-07-22", aspek: ["agama", "sosial"], foto: "https://picsum.photos/seed/haisyah2/400/400", judul: "Praktik Salam & Tolong", observasi: "Aisyah selalu mengucapkan salam dan tolong saat meminta bantuan kepada guru." },
+  { id: "hp3", siswa: "Aisyah Putri", avatar: "A", kelas: "TK A", tanggal: "2026-07-18", aspek: ["seni", "motorik"], foto: "https://picsum.photos/seed/haisyah3/400/400", judul: "Hasil Mewarnai", observasi: "Aisyah mewarnai gambar pemandangan dengan rapi dan penuh detail." },
+  { id: "hp4", siswa: "Budi Santoso", avatar: "B", kelas: "TK B", tanggal: "2026-07-26", aspek: ["fisik", "sosial"], foto: "https://picsum.photos/seed/hbudi1/400/400", judul: "Olahraga & Bermain Peran", observasi: "Budi aktif dalam kegiatan olahraga dan bermain peran sebagai dokter." },
+  { id: "hp5", siswa: "Budi Santoso", avatar: "B", kelas: "TK B", tanggal: "2026-07-20", aspek: ["sosial", "kognitif"], foto: "https://picsum.photos/seed/hbudi2/400/400", judul: "Bermain Bersama", observasi: "Budi mulai mau berbagi mainan dengan teman tanpa diminta." },
+  { id: "hp6", siswa: "Citra Dewi", avatar: "C", kelas: "TK A", tanggal: "2026-07-25", aspek: ["seni", "kognitif"], foto: "https://picsum.photos/seed/hcitra1/400/400", judul: "Mewarnai & Menggambar", observasi: "Citra menunjukkan bakat seni. Hasil mewarnainya sangat rapi." },
+  { id: "hp7", siswa: "Citra Dewi", avatar: "C", kelas: "TK A", tanggal: "2026-07-19", aspek: ["fisik", "agama"], foto: "https://picsum.photos/seed/hcitra2/400/400", judul: "Berkebun & Mengaji", observasi: "Citra senang menyiram tanaman dan mengaji dengan suara merdu." },
 ];

@@ -1,6 +1,6 @@
 "use client";
 
-import { DEMO_DAILY_REPORTS, DEMO_STUDENTS, FITRAH_LIST, MOOD_OPTIONS } from "../lib/data";
+import { DEMO_DAILY_REPORTS, DEMO_STUDENTS, MOOD_OPTIONS } from "../lib/data";
 import { useState } from "react";
 
 const moodEmoji: Record<string, string> = {};
@@ -61,14 +61,6 @@ export default function DailyReportPage() {
                         <span className={`text-[11px] px-2 py-0.5 rounded-full font-medium ${
                           r.kehadiran === "Hadir" ? "bg-green-50 text-green-600" : r.kehadiran === "Izin" ? "bg-yellow-50 text-yellow-600" : "bg-red-50 text-red-600"
                         }`}>{r.kehadiran}</span>
-                        {r.fitrah_distimulasi.map((fk) => {
-                          const label = FITRAH_LIST.find((f) => f.key === fk)?.label || fk;
-                          return (
-                            <span key={fk} className="text-[11px] bg-[#EDE9FE] text-[#6741D9] px-2 py-0.5 rounded-full">
-                              {label}
-                            </span>
-                          );
-                        })}
                       </div>
                     </div>
                   </div>
@@ -109,7 +101,7 @@ export default function DailyReportPage() {
                       </div>
 
                       <div className="col-span-full">
-                        <h4 className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3">Ibadah & Observasi</h4>
+                        <h4 className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3">Observasi</h4>
                         <div className="flex flex-wrap gap-1.5 mb-3">
                           {r.ibadah_checklist.map((item) => (
                             <span key={item} className="text-[11px] bg-green-50 text-green-600 px-2 py-0.5 rounded-full">✓ {item}</span>

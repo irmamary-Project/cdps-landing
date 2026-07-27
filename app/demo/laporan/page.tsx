@@ -1,6 +1,6 @@
 "use client";
 
-import { DEMO_LAPORAN, FITRAH_LIST, CAPAIAN_OPTIONS } from "../lib/data";
+import { DEMO_LAPORAN, ASPEK_LIST, CAPAIAN_OPTIONS } from "../lib/data";
 
 const colorMap: Record<string, string> = {
   BSB: "bg-green-100 text-green-700",
@@ -36,10 +36,10 @@ export default function LaporanPage() {
 
         <div className="p-5 sm:p-6">
           <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">
-            Penilaian 8 Aspek Fitrah
+            Penilaian 8 Aspek Perkembangan
           </h3>
           <div className="space-y-3">
-            {FITRAH_LIST.map((f) => {
+            {ASPEK_LIST.map((f) => {
               const entry = l.penilaian[f.key as keyof typeof l.penilaian];
               if (!entry) return null;
               return (
