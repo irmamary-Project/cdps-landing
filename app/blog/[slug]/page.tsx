@@ -4,6 +4,34 @@ import { notFound } from "next/navigation";
 import { blogPosts } from "@/lib/blog-posts";
 import { Icon } from "@/components/decorative/FeatureIcon";
 
+function BlogContent({ content }: { content: string[] }) {
+  return (
+    <>
+      {content.map((block, i) => {
+        if (block.startsWith("### ")) {
+          return (
+            <h3 key={i} className="text-xl font-bold text-gray-900 mt-8 mb-3">
+              {block.slice(4)}
+            </h3>
+          );
+        }
+        if (block.startsWith("## ")) {
+          return (
+            <h2 key={i} className="text-2xl font-bold text-gray-900 mt-10 mb-4">
+              {block.slice(3)}
+            </h2>
+          );
+        }
+        return (
+          <p key={i} className="text-gray-600 leading-relaxed mb-5 text-base lg:text-lg">
+            {block}
+          </p>
+        );
+      })}
+    </>
+  );
+}
+
 export async function generateStaticParams() {
   return blogPosts.map((post) => ({ slug: post.slug }));
 }
@@ -85,12 +113,8 @@ export default async function BlogPostPage({
               />
             </div>
 
-            <div className="prose prose-gray max-w-none">
-              {post.content.map((paragraph, i) => (
-                <p key={i} className="text-gray-600 leading-relaxed mb-5 text-base lg:text-lg">
-                  {paragraph}
-                </p>
-              ))}
+            <div className="max-w-none">
+              <BlogContent content={post.content} />
             </div>
 
             <div className="border-t border-gray-100 mt-12 pt-8">
