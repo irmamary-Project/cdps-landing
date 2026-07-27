@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { DEMO_HISTORY_REPORTS, DEMO_STUDENTS } from "../lib/data";
+import StudentAvatar from "@/components/StudentAvatar";
+import { DEMO_HISTORY_REPORTS, DEMO_STUDENTS, MOOD_EMOJI_MAP } from "../lib/data";
 import { Search, CalendarDays } from "lucide-react";
-
-const MOOD_EMOJI: Record<string, string> = { senang: "😊", biasa: "😐", sedih: "😢", marah: "😤" };
 
 export default function RiwayatDailyReportPage() {
   const [siswa, setSiswa] = useState("");
@@ -63,7 +62,7 @@ export default function RiwayatDailyReportPage() {
                 {reports.map((r) => (
                   <div key={r.id} className="p-4 sm:p-5 flex items-start justify-between gap-4 hover:bg-gray-50/50">
                     <div className="flex items-center gap-3 min-w-0">
-                      <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#6741D9] to-[#7C5CF7] flex items-center justify-center text-white font-bold text-xs flex-shrink-0">{r.avatar}</div>
+                      <StudentAvatar name={r.siswa} size="xs" />
                       <div className="min-w-0">
                         <div className="flex items-center gap-2">
                           <span className="text-sm font-semibold text-gray-900">{r.tanggal}</span>
@@ -73,7 +72,7 @@ export default function RiwayatDailyReportPage() {
                       </div>
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
-                      <span className="text-sm">{MOOD_EMOJI[r.mood] || "–"}</span>
+                      <span className="text-sm">{MOOD_EMOJI_MAP[r.mood] || "–"}</span>
                       <span className={`text-xs font-bold px-2 py-1 rounded-full ${r.kehadiran === "Hadir" ? "bg-green-50 text-green-600" : r.kehadiran === "Izin" ? "bg-yellow-50 text-yellow-600" : "bg-red-50 text-red-600"}`}>{r.kehadiran}</span>
                     </div>
                   </div>

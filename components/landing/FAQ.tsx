@@ -41,8 +41,8 @@ export default function FAQ() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section id="kontak" aria-label="Pertanyaan Umum tentang CDPS" className="py-20 sm:py-28 bg-[#F8FAFC] relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-64 h-64 bg-[#EDE9FE] rounded-full blur-3xl opacity-60 -translate-y-1/2 translate-x-1/2 pointer-events-none" aria-hidden="true" />
+    <section id="kontak" aria-label="Pertanyaan Umum tentang CDPS" className="py-20 sm:py-28 bg-cream relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-64 h-64 bg-primary-pale rounded-full blur-3xl opacity-60 -translate-y-1/2 translate-x-1/2 pointer-events-none" aria-hidden="true" />
 
       <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
@@ -106,14 +106,14 @@ export default function FAQ() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mt-12 p-8 bg-gradient-to-br from-[#EDE9FE] to-white rounded-3xl border border-[#EDE9FE]"
+          className="text-center mt-12 p-8 bg-gradient-to-br from-primary-pale to-white rounded-3xl border border-primary-pale"
         >
           <p className="text-gray-700 font-semibold mb-2">Masih punya pertanyaan lain?</p>
           <p className="text-gray-500 text-sm mb-4">Tim kami siap membantu Anda.</p>
           <div className="flex items-center justify-center gap-3 flex-wrap">
             <a
               href="/kontak"
-              className="inline-flex items-center gap-2 bg-[#6741D9] hover:bg-[#7C5CF7] text-white font-bold px-6 py-3 rounded-full text-sm transition-all hover:shadow-lg"
+              className="inline-flex items-center gap-2 bg-primary hover:bg-primary-light text-white font-bold px-6 py-3 rounded-full text-sm transition-all hover:shadow-lg"
             >
               Hubungi Kami
               <Icon name="arrow-right" size={14} />
@@ -122,7 +122,7 @@ export default function FAQ() {
               href="https://wa.me/6289656059612"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[#04B5BB] hover:bg-[#03A0A8] text-white font-bold px-6 py-3 rounded-full text-sm transition-all hover:shadow-lg"
+              className="inline-flex items-center gap-2 bg-secondary hover:bg-secondary text-white font-bold px-6 py-3 rounded-full text-sm transition-all hover:shadow-lg"
             >
               <Icon name="whatsapp" size={16} />
               WhatsApp

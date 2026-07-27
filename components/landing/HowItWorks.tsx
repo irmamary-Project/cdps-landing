@@ -41,10 +41,10 @@ function StepCard({ step, index }: { step: typeof STEPS[number]; index: number }
             className={`flex items-center gap-5 ${isLeft ? "flex-row-reverse" : "flex-row"}`}
           >
             <div className="relative z-10 flex-shrink-0">
-              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#6741D9] to-[#7C5CF7] flex items-center justify-center shadow-lg shadow-[#6741D9]/20">
+              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-primary-light flex items-center justify-center shadow-lg shadow-primary/20">
                 <Icon name={step.icon} size={24} className="text-white" />
               </div>
-              <div className="absolute -top-1 -right-1 w-7 h-7 bg-[#FBD321] rounded-full flex items-center justify-center text-[#6741D9] text-xs font-bold shadow-md">
+              <div className="absolute -top-1 -right-1 w-7 h-7 bg-accent rounded-full flex items-center justify-center text-primary text-xs font-bold shadow-md">
                 {step.num}
               </div>
             </div>
@@ -58,10 +58,10 @@ function StepCard({ step, index }: { step: typeof STEPS[number]; index: number }
 
       <div className="lg:hidden flex items-center gap-4">
         <div className="relative z-10 flex-shrink-0">
-          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#6741D9] to-[#7C5CF7] flex items-center justify-center shadow-lg shadow-[#6741D9]/20">
+          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-primary-light flex items-center justify-center shadow-lg shadow-primary/20">
             <Icon name={step.icon} size={20} className="text-white" />
           </div>
-          <div className="absolute -top-1 -right-1 w-6 h-6 bg-[#FBD321] rounded-full flex items-center justify-center text-[#6741D9] text-[10px] font-bold shadow-md">
+          <div className="absolute -top-1 -right-1 w-6 h-6 bg-accent rounded-full flex items-center justify-center text-primary text-[10px] font-bold shadow-md">
             {step.num}
           </div>
         </div>
@@ -77,7 +77,7 @@ function StepCard({ step, index }: { step: typeof STEPS[number]; index: number }
 export default function HowItWorks() {
   return (
     <section aria-label="Cara Kerja CDPS" className="py-20 sm:py-28 relative overflow-hidden">
-      <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#EDE9FE] via-[#6741D9] to-[#EDE9FE] hidden lg:block -translate-x-1/2" aria-hidden="true" />
+      <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary-pale via-primary to-primary-pale hidden lg:block -translate-x-1/2" aria-hidden="true" />
 
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
@@ -102,12 +102,12 @@ export default function HowItWorks() {
           className="text-center mt-12 lg:mt-16"
         >
           <a
-            href="#kontak"
-            className="group inline-flex items-center gap-2 bg-[#FBD321] hover:bg-[#D4A800] text-[#6741D9] font-bold px-8 py-4 rounded-full text-base transition-all hover:shadow-lg hover:shadow-[#FBD321]/30"
+            href="/kontak"
+            className="group inline-flex items-center gap-2 bg-accent hover:bg-accent-dark text-primary font-bold px-8 py-4 rounded-full text-base transition-all hover:shadow-lg hover:shadow-accent/30"
           >
             Hubungi Kami Sekarang
             <span className="group-hover:translate-x-1 transition-transform">
-              <Icon name="arrow-right" size={18} className="text-[#6741D9]" />
+              <Icon name="arrow-right" size={18} className="text-primary" />
             </span>
           </a>
         </motion.div>

@@ -6,9 +6,9 @@ export default function Topbar({ onMenuClick }: { onMenuClick: () => void }) {
   return (
     <header
       className="lg:hidden fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-4 h-14"
-      style={{ background: "#6741D9", borderBottom: "1px solid rgba(255,255,255,0.1)" }}
+      style={{ background: "var(--primary)", borderBottom: "1px solid rgba(255,255,255,0.1)" }}
     >
-      <Logo variant="vertical" size="sm" />
+      <Logo size="sm" />
       <button
         onClick={onMenuClick}
         className="text-white/70 hover:text-white p-2"

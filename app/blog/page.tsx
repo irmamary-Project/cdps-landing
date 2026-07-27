@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Header from "@/components/Header";
 import Logo from "@/components/Logo";
+import SiteFooter from "@/components/SiteFooter";
 import { blogPosts } from "@/lib/blog-posts";
 
 export const metadata: Metadata = {
@@ -17,21 +19,19 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   return (
     <>
-      <nav aria-label="Navigasi utama" className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100/50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <Link href="/" aria-label="CDPS - Beranda">
-            <Logo size="sm" />
+      <Header>
+        <Link href="/" aria-label="CDPS - Beranda">
+          <Logo size="sm" />
+        </Link>
+        <div className="flex items-center gap-4 sm:gap-6">
+          <Link href="/" className="text-sm text-gray-500 hover:text-primary font-medium transition-colors">
+            Beranda
           </Link>
-          <div className="flex items-center gap-4 sm:gap-6">
-            <Link href="/" className="text-sm text-gray-500 hover:text-[#6741D9] font-medium transition-colors">
-              Beranda
-            </Link>
-            <Link href="/blog" className="text-sm text-[#6741D9] font-bold transition-colors">
-              Blog
-            </Link>
-          </div>
+          <Link href="/blog" className="text-sm text-primary font-bold transition-colors">
+            Blog
+          </Link>
         </div>
-      </nav>
+      </Header>
 
       <main className="flex-1 pt-16">
         <section className="py-16 sm:py-20">
@@ -50,9 +50,9 @@ export default function BlogPage() {
                 <Link
                   key={post.slug}
                   href={`/blog/${post.slug}`}
-                  className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg hover:border-[#EDE9FE] transition-all"
+                  className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg hover:border-primary-pale transition-all"
                 >
-                  <div className="aspect-[16/9] bg-[#EDE9FE] overflow-hidden">
+                  <div className="aspect-[16/9] bg-primary-pale overflow-hidden">
                     <img
                       src={post.image}
                       alt={post.title}
@@ -65,14 +65,14 @@ export default function BlogPage() {
                       <span className="w-1 h-1 rounded-full bg-gray-300" />
                       <span>{post.readTime}</span>
                     </div>
-                    <h2 className="text-base font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-[#6741D9] transition-colors">
+                    <h2 className="text-base font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-primary transition-colors">
                       {post.title}
                     </h2>
                     <p className="text-sm text-gray-500 leading-relaxed line-clamp-2">
                       {post.description}
                     </p>
                     <div className="mt-3">
-                      <span className="text-xs font-medium text-[#6741D9] bg-[#EDE9FE] px-3 py-1 rounded-full">
+                      <span className="text-xs font-medium text-primary bg-primary-pale px-3 py-1 rounded-full">
                         {post.category}
                       </span>
                     </div>
@@ -84,11 +84,7 @@ export default function BlogPage() {
         </section>
       </main>
 
-      <footer className="bg-[#3B1F8A] text-white/60 py-8">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs">
-          <span>&copy; {new Date().getFullYear()} Lumizo. All rights reserved.</span>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }

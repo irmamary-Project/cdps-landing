@@ -46,7 +46,7 @@ export default function Sidebar({ open, onClose }: { open: boolean; onClose: () 
     <>
       <div className="px-5 py-5 border-b border-white/10">
         <div className="flex items-center justify-between">
-          <Logo variant="vertical" size="sm" />
+          <Logo size="sm" />
           <button
             className="lg:hidden text-white/50 hover:text-white p-1"
             onClick={onClose}
@@ -86,7 +86,7 @@ export default function Sidebar({ open, onClose }: { open: boolean; onClose: () 
             >
               <Icon size={18} />
               <span className="flex-1">{item.label}</span>
-              {item.new && <span className="text-[10px] bg-[#FBD321] text-[#6741D9] px-1.5 py-0.5 rounded-full font-bold">Baru</span>}
+              {item.new && <span className="text-[10px] bg-accent text-primary px-1.5 py-0.5 rounded-full font-bold">Baru</span>}
             </Link>
           );
         })}
@@ -114,14 +114,14 @@ export default function Sidebar({ open, onClose }: { open: boolean; onClose: () 
 
       <aside
         className={clsx(
-          "lg:hidden fixed top-0 left-0 z-50 h-full w-64 flex flex-col transition-transform duration-300 bg-[#6741D9]",
+          "lg:hidden fixed top-0 left-0 z-50 h-full w-64 flex flex-col transition-transform duration-300 bg-primary",
           open ? "translate-x-0" : "-translate-x-full"
         )}
       >
         {content}
       </aside>
 
-      <aside className="hidden lg:flex w-60 flex-shrink-0 flex-col min-h-screen sticky top-0 bg-[#6741D9]">
+      <aside className="hidden lg:flex w-60 flex-shrink-0 flex-col min-h-screen sticky top-0 bg-primary">
         {content}
       </aside>
     </>

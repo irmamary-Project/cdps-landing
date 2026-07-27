@@ -20,7 +20,7 @@ const itemVariants = {
 
 export default function Hero() {
   return (
-    <section aria-label="Hero" className="relative overflow-hidden bg-gradient-to-br from-[#6741D9] via-[#7C5CF7] to-[#04B5BB] min-h-[85vh] flex items-center">
+    <section aria-label="Hero" className="relative overflow-hidden bg-gradient-to-br from-primary via-primary-light to-secondary min-h-[85vh] flex items-center">
       {/* Animated gradient overlay */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(251,211,33,0.15),transparent_50%)] animate-pulse-soft" aria-hidden="true" />
 
@@ -29,7 +29,7 @@ export default function Hero() {
           <BlobPrimary className="w-full h-full text-white" />
         </div>
         <div className="absolute -bottom-24 -left-24 w-72 h-72 opacity-15 animate-float" style={{ animationDelay: "-3s" }}>
-          <BlobPrimary className="w-full h-full text-[#FBD321]" />
+          <BlobPrimary className="w-full h-full text-accent" />
         </div>
         <div className="absolute top-1/4 left-1/3 w-96 h-96 opacity-[0.08] animate-spin-slow pointer-events-none">
           <svg viewBox="0 0 200 200" fill="none">
@@ -48,7 +48,7 @@ export default function Hero() {
         <motion.div variants={containerVariants} initial="hidden" animate="visible" className="grid lg:grid-cols-5 gap-8 lg:gap-12 items-center">
           <div className="lg:col-span-3 text-center lg:text-left">
             <motion.div variants={itemVariants} className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm text-white text-xs sm:text-sm px-4 py-2 rounded-full mb-6 border border-white/10">
-              <span className="w-2 h-2 rounded-full bg-[#FBD321] animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
               Platform Manajemen Tumbuh Kembang Anak
             </motion.div>
 
@@ -56,7 +56,7 @@ export default function Hero() {
               Pantau Tumbuh
               <br />
               Kembang{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FBD321] via-yellow-200 to-[#FBD321]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent via-yellow-200 to-accent">
                 Lebih Mudah
               </span>
             </motion.h1>
@@ -69,7 +69,7 @@ export default function Hero() {
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center lg:justify-start justify-center gap-4">
               <Link
                 href="/demo"
-                className="group inline-flex items-center gap-2 bg-[#FBD321] hover:bg-white text-[#6741D9] font-bold px-8 py-4 rounded-full text-base transition-all hover:scale-105 hover:shadow-xl hover:shadow-[#FBD321]/40"
+                className="group inline-flex items-center gap-2 bg-accent hover:bg-white text-primary font-bold px-8 py-4 rounded-full text-base transition-all hover:scale-105 hover:shadow-xl hover:shadow-accent/40"
               >
                 Coba Demo Gratis
                 <span className="group-hover:translate-x-1 transition-transform">
@@ -103,13 +103,13 @@ export default function Hero() {
           <motion.div variants={itemVariants} className="lg:col-span-2 hidden lg:flex justify-center">
             <div className="relative">
               {/* Decorative rings */}
-              <div className="absolute -inset-8 bg-gradient-to-br from-[#FBD321]/20 to-transparent rounded-full blur-2xl animate-pulse-soft" />
+              <div className="absolute -inset-8 bg-gradient-to-br from-accent/20 to-transparent rounded-full blur-2xl animate-pulse-soft" />
               <div className="absolute -inset-4 border border-white/10 rounded-full animate-spin-slow" />
               <div className="absolute -inset-8 border border-white/5 rounded-full animate-spin-slow" style={{ animationDirection: "reverse", animationDuration: "25s" }} />
 
               {/* Main image card */}
               <div className="relative bg-white/10 backdrop-blur-sm rounded-3xl border border-white/15 p-3 shadow-2xl">
-                <div className="rounded-2xl overflow-hidden bg-gradient-to-br from-[#6741D9]/40 to-[#04B5BB]/40 p-2">
+                <div className="rounded-2xl overflow-hidden bg-gradient-to-br from-primary/40 to-secondary/40 p-2">
                   <img
                     src="/logo.png"
                     alt="CDPS Dashboard Preview"
@@ -119,8 +119,8 @@ export default function Hero() {
               </div>
 
               {/* Floating badge - top */}
-              <div className="absolute -top-3 -right-3 w-14 h-14 bg-[#FBD321] rounded-2xl -rotate-12 flex items-center justify-center shadow-lg shadow-[#FBD321]/30">
-                <Icon name="star" size={24} className="text-[#6741D9]" />
+              <div className="absolute -top-3 -right-3 w-14 h-14 bg-accent rounded-2xl -rotate-12 flex items-center justify-center shadow-lg shadow-accent/30">
+                <Icon name="star" size={24} className="text-primary" />
               </div>
 
               {/* Floating badge - bottom */}

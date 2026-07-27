@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import StudentAvatar from "@/components/StudentAvatar";
 import { DEMO_HISTORY_PORTOFOLIO, ASPEK_LIST } from "../lib/data";
 import { Search, CalendarDays } from "lucide-react";
 
@@ -53,7 +54,7 @@ export default function RiwayatPortofolioPage() {
               </button>
               <div className="p-4 sm:p-5">
                 <div className="flex items-center gap-2 mb-2">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#6741D9] to-[#7C5CF7] flex items-center justify-center text-white font-bold text-xs">{p.avatar}</div>
+                  <StudentAvatar name={p.siswa} size="sm" />
                   <div>
                     <div className="text-sm font-semibold text-gray-900">{p.siswa}</div>
                     <div className="text-xs text-gray-400">{p.kelas} · {p.tanggal}</div>
@@ -64,7 +65,7 @@ export default function RiwayatPortofolioPage() {
                 <div className="flex flex-wrap gap-1.5">
                   {p.aspek.map((fk) => {
                     const label = ASPEK_LIST.find((f) => f.key === fk)?.label || fk;
-                    return <span key={fk} className="text-[11px] bg-[#EDE9FE] text-[#6741D9] px-2 py-0.5 rounded-full">{label}</span>;
+                    return <span key={fk} className="text-[11px] bg-primary-pale text-primary px-2 py-0.5 rounded-full">{label}</span>;
                   })}
                 </div>
               </div>

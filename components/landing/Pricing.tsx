@@ -10,8 +10,8 @@ const PLANS = [
     period: "selamanya",
     desc: "Coba fitur dasar CDPS tanpa biaya. Cocok untuk pengenalan.",
     color: "#6741D9",
-    bg: "bg-[#EDE9FE]",
-    btn: "bg-[#6741D9] hover:bg-[#7C5CF7] text-white",
+    bg: "bg-primary-pale",
+    btn: "bg-primary hover:bg-primary-light text-white",
     features: [
       "Maksimal 5 siswa",
       "Daily report harian",
@@ -31,7 +31,7 @@ const PLANS = [
     desc: "Fitur lengkap untuk sekolah dengan kebutuhan lebih besar.",
     color: "#FBD321",
     bg: "bg-[#FEF9E7]",
-    btn: "bg-[#FBD321] hover:bg-[#D4A800] text-[#6741D9]",
+    btn: "bg-accent hover:bg-accent-dark text-primary",
     featured: true,
     features: [
       "Maksimal 50 siswa",
@@ -54,7 +54,7 @@ const PLANS = [
     desc: "Solusi khusus untuk yayasan atau dinas pendidikan.",
     color: "#04B5BB",
     bg: "bg-[#E6F9FA]",
-    btn: "bg-[#04B5BB] hover:bg-[#03A0A8] text-white",
+    btn: "bg-secondary hover:bg-secondary text-white",
     features: [
       "Siswa tidak terbatas",
       "Semua fitur Pro",
@@ -91,11 +91,11 @@ export default function Pricing() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
               className={`relative rounded-3xl border-2 overflow-hidden ${
-                plan.featured ? "border-[#FBD321] shadow-xl shadow-[#FBD321]/10 scale-105" : "border-gray-100"
+                plan.featured ? "border-accent shadow-xl shadow-accent/10 scale-105" : "border-gray-100"
               }`}
             >
               {plan.featured && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-[#FBD321] text-[#6741D9] text-xs font-bold px-6 py-1.5 rounded-b-xl">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-accent text-primary text-xs font-bold px-6 py-1.5 rounded-b-xl">
                   PALING POPULER
                 </div>
               )}
@@ -118,14 +118,14 @@ export default function Pricing() {
               <div className="p-6 lg:p-8 bg-white space-y-3">
                 {plan.features.map((f) => (
                   <div key={f} className="flex items-start gap-3">
-                    <Icon name="checklist" size={16} className="text-[#04B5BB] mt-0.5 flex-shrink-0" />
+                    <Icon name="checklist" size={16} className="text-secondary mt-0.5 flex-shrink-0" />
                     <span className="text-sm text-gray-600">{f}</span>
                   </div>
                 ))}
                 {plan.notes?.map((n) => (
                   <div key={n} className="flex items-start gap-3 mt-3 pt-3 border-t border-gray-50">
-                    <span className="w-4 h-4 rounded-full bg-[#FBD321]/30 flex items-center justify-center mt-0.5 flex-shrink-0">
-                      <span className="text-[8px] text-[#6741D9] font-bold">i</span>
+                    <span className="w-4 h-4 rounded-full bg-accent/30 flex items-center justify-center mt-0.5 flex-shrink-0">
+                      <span className="text-[8px] text-primary font-bold">i</span>
                     </span>
                     <span className="text-xs text-gray-400 italic">{n}</span>
                   </div>

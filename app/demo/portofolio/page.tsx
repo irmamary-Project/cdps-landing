@@ -1,5 +1,6 @@
 "use client";
 
+import StudentAvatar from "@/components/StudentAvatar";
 import { DEMO_PORTOFOLIO } from "../lib/data";
 import { useState } from "react";
 
@@ -18,9 +19,7 @@ export default function PortofolioPage() {
           <div key={p.id} className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
             <div className="p-4 sm:p-5 border-b border-gray-50">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#6741D9] to-[#7C5CF7] flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
-                  {p.siswa.nama.charAt(0)}
-                </div>
+                <StudentAvatar name={p.siswa.nama} size="md" />
                 <div>
                   <div className="text-sm font-bold text-gray-900">{p.siswa.nama}</div>
                   <div className="text-xs text-gray-400">{p.tanggal} · {p.sesi}</div>

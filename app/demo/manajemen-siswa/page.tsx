@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import StudentAvatar from "@/components/StudentAvatar";
 import { DEMO_STUDENTS_FULL, DEMO_CLASSES } from "../lib/data";
-import { Search, Plus, Filter } from "lucide-react";
+import { Search, Plus } from "lucide-react";
 
 export default function ManajemenSiswaPage() {
   const [search, setSearch] = useState("");
@@ -49,7 +50,7 @@ export default function ManajemenSiswaPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Cari siswa..."
-              className="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6741D9]/20 focus:border-[#6741D9]"
+              className="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
             />
           </div>
           <div className="flex gap-2">
@@ -62,7 +63,7 @@ export default function ManajemenSiswaPage() {
               <option value="Aktif">Aktif</option>
               <option value="Alumni">Alumni</option>
             </select>
-            <button className="inline-flex items-center gap-1.5 bg-[#6741D9] text-white text-sm font-bold px-4 py-2 rounded-lg opacity-50 cursor-not-allowed">
+            <button className="inline-flex items-center gap-1.5 bg-primary text-white text-sm font-bold px-4 py-2 rounded-lg opacity-50 cursor-not-allowed">
               <Plus size={16} /> Tambah
             </button>
           </div>
@@ -84,7 +85,7 @@ export default function ManajemenSiswaPage() {
                 <tr key={s.id} className="hover:bg-gray-50/50">
                   <td className="px-5 py-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#6741D9] to-[#7C5CF7] flex items-center justify-center text-white font-bold text-xs">{s.nama[0]}</div>
+                      <StudentAvatar name={s.nama} size="sm" />
                       <span className="font-semibold text-gray-900">{s.nama}</span>
                     </div>
                   </td>

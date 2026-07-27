@@ -1,5 +1,6 @@
 "use client";
 
+import StudentAvatar from "@/components/StudentAvatar";
 import { DEMO_STATS, DEMO_DAILY_REPORTS, DEMO_PORTOFOLIO, DEMO_STUDENTS } from "./lib/data";
 import { useState } from "react";
 
@@ -7,9 +8,9 @@ export default function DashboardPage() {
   const [selectedSiswa, setSelectedSiswa] = useState("");
 
   const stats = [
-    { label: "Total Siswa", value: DEMO_STATS.total_siswa, icon: "👶", color: "from-[#6741D9] to-[#7C5CF7]" },
-    { label: "Total Guru", value: DEMO_STATS.total_guru, icon: "👩‍🏫", color: "from-[#7C5CF7] to-[#04B5BB]" },
-    { label: "Laporan Bulan Ini", value: DEMO_STATS.laporan_bulan_ini, icon: "📋", color: "from-[#FBD321] to-[#D4A800]" },
+    { label: "Total Siswa", value: DEMO_STATS.total_siswa, icon: "👶", color: "from-primary to-primary-light" },
+    { label: "Total Guru", value: DEMO_STATS.total_guru, icon: "👩‍🏫", color: "from-primary-light to-secondary" },
+    { label: "Laporan Bulan Ini", value: DEMO_STATS.laporan_bulan_ini, icon: "📋", color: "from-accent to-accent-dark" },
     { label: "Portofolio Bulan Ini", value: DEMO_STATS.portofolio_bulan_ini, icon: "📷", color: "from-green-500 to-emerald-600" },
   ];
 
@@ -64,9 +65,7 @@ export default function DashboardPage() {
               filteredReports.map((r) => (
                 <div key={r.id} className="p-4 sm:p-5 flex items-start justify-between gap-4 hover:bg-gray-50/50">
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#6741D9] to-[#7C5CF7] flex items-center justify-center text-white font-bold text-xs flex-shrink-0">
-                      {r.siswa.nama.charAt(0)}
-                    </div>
+                    <StudentAvatar name={r.siswa.nama} size="xs" />
                     <div className="min-w-0">
                       <div className="text-sm font-semibold text-gray-900 truncate">{r.siswa.nama}</div>
                       <div className="text-xs text-gray-400">

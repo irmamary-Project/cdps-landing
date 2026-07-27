@@ -7,10 +7,10 @@ import { Icon } from "@/components/decorative/FeatureIcon";
 
 export default function DemoPreview() {
   return (
-    <section aria-label="Demo Portal CDPS" className="py-20 sm:py-28 bg-gradient-to-br from-[#6741D9] to-[#3720A0] relative overflow-hidden">
+    <section aria-label="Demo Portal CDPS" className="py-20 sm:py-28 bg-gradient-to-br from-primary to-[#3720A0] relative overflow-hidden">
       <div className="absolute inset-0" aria-hidden="true">
         <div className="absolute -top-40 -left-40 w-96 h-96 opacity-10 animate-float-slow">
-          <BlobPrimary className="w-full h-full text-[#FBD321]" />
+          <BlobPrimary className="w-full h-full text-accent" />
         </div>
         <div className="absolute -bottom-40 -right-40 w-80 h-80 opacity-10 animate-float" style={{ animationDelay: "-2s" }}>
           <BlobPrimary className="w-full h-full text-white" />
@@ -48,7 +48,7 @@ export default function DemoPreview() {
                     <div className="flex items-center justify-between mb-4">
                       <div className="h-4 w-32 bg-gray-200 rounded-full" />
                       <div className="flex gap-2">
-                        <div className="h-6 w-16 bg-[#FBD321] rounded-full" />
+                        <div className="h-6 w-16 bg-accent rounded-full" />
                         <div className="h-6 w-16 bg-gray-200 rounded-full" />
                       </div>
                     </div>
@@ -56,7 +56,7 @@ export default function DemoPreview() {
                       {[1, 2, 3, 4].map((i) => (
                         <div key={i} className="bg-white rounded-lg p-2 border border-gray-100 shadow-sm">
                           <div className="h-3 w-12 bg-gray-200 rounded mb-1" />
-                          <div className="h-5 w-8 bg-gradient-to-r from-[#6741D9] to-[#7C5CF7] rounded" />
+                          <div className="h-5 w-8 bg-gradient-to-r from-primary to-primary-light rounded" />
                         </div>
                       ))}
                     </div>
@@ -65,7 +65,7 @@ export default function DemoPreview() {
                         <div className="h-3 w-24 bg-gray-200 rounded mb-2" />
                         {[1, 2, 3].map((i) => (
                           <div key={i} className="flex items-center gap-2 mb-2">
-                            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#6741D9] to-[#7C5CF7]" />
+                            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-primary-light" />
                             <div className="flex-1 h-2 bg-gray-100 rounded" />
                             <div className="h-4 w-10 bg-green-100 rounded-full" />
                           </div>
@@ -96,7 +96,7 @@ export default function DemoPreview() {
           >
             <Link
               href="/demo"
-              className="group inline-flex items-center gap-2 bg-[#FBD321] hover:bg-white text-[#6741D9] font-bold px-10 py-4 rounded-full text-lg transition-all hover:scale-105 hover:shadow-xl hover:shadow-[#FBD321]/30"
+              className="group inline-flex items-center gap-2 bg-accent hover:bg-white text-primary font-bold px-10 py-4 rounded-full text-lg transition-all hover:scale-105 hover:shadow-xl hover:shadow-accent/30"
             >
               Buka Demo Lengkap
               <span className="group-hover:translate-x-1 transition-transform">

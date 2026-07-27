@@ -1,10 +1,8 @@
 "use client";
 
-import { DEMO_DAILY_REPORTS, DEMO_STUDENTS, MOOD_OPTIONS } from "../lib/data";
+import StudentAvatar from "@/components/StudentAvatar";
+import { DEMO_DAILY_REPORTS, DEMO_STUDENTS, MOOD_EMOJI_MAP } from "../lib/data";
 import { useState } from "react";
-
-const moodEmoji: Record<string, string> = {};
-MOOD_OPTIONS.forEach((m) => { moodEmoji[m.value] = m.emoji; });
 
 export default function DailyReportPage() {
   const [expanded, setExpanded] = useState<string | null>(null);
@@ -49,9 +47,7 @@ export default function DailyReportPage() {
                   className="w-full p-4 sm:p-5 flex items-start justify-between gap-4 text-left hover:bg-gray-50/50 transition-colors"
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#6741D9] to-[#7C5CF7] flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
-                      {r.siswa.nama.charAt(0)}
-                    </div>
+                    <StudentAvatar name={r.siswa.nama} size="md" />
                     <div className="min-w-0">
                       <div className="text-sm font-bold text-gray-900">{r.siswa.nama}</div>
                       <div className="text-xs text-gray-400 mt-0.5">
@@ -65,7 +61,7 @@ export default function DailyReportPage() {
                     </div>
                   </div>
                   <div className="text-right flex-shrink-0 flex flex-col items-end gap-1">
-                    <span className="text-lg">{moodEmoji[r.mood_datang]}</span>
+                    <span className="text-lg">{MOOD_EMOJI_MAP[r.mood_datang]}</span>
                     <span className="text-[11px] text-gray-400">{r.status}</span>
                     <span className="text-xs text-gray-300">{isOpen ? "▲" : "▼"}</span>
                   </div>

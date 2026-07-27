@@ -8,7 +8,7 @@ export default function DemoLayout({ children }: { children: React.ReactNode }) 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen" style={{ background: "#F8FAFC" }}>
+    <div className="flex min-h-screen" style={{ background: "var(--cream)" }}>
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="flex-1 flex flex-col lg:pt-0 pt-14">
         <Topbar onMenuClick={() => setSidebarOpen(true)} />

@@ -3,7 +3,6 @@ export default function Logo({
   className = "",
 }: {
   size?: "sm" | "md" | "lg";
-  variant?: "icon" | "horizontal" | "vertical";
   className?: string;
 }) {
   const h = size === "sm" ? 28 : size === "lg" ? 56 : 40;

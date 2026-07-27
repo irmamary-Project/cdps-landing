@@ -1,5 +1,6 @@
 "use client";
 
+import StudentAvatar from "@/components/StudentAvatar";
 import { DEMO_LAPORAN, ASPEK_LIST, CAPAIAN_OPTIONS } from "../lib/data";
 
 const colorMap: Record<string, string> = {
@@ -22,9 +23,7 @@ export default function LaporanPage() {
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
         <div className="p-5 sm:p-6 border-b border-gray-100">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#6741D9] to-[#7C5CF7] flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
-              {l.siswa.nama.charAt(0)}
-            </div>
+            <StudentAvatar name={l.siswa.nama} size="lg" />
             <div>
               <div className="text-lg font-bold text-gray-900">{l.siswa.nama}</div>
               <div className="text-sm text-gray-400">

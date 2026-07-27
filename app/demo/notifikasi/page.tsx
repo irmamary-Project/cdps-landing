@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { DEMO_NOTIFICATIONS } from "../lib/data";
-import { Bell, MessageSquare, Info, CheckCheck, Filter } from "lucide-react";
+import { Bell, MessageSquare, Info, CheckCheck } from "lucide-react";
 
 const JENIS_ICON: Record<string, typeof Bell> = {
   laporan: Bell,
@@ -11,9 +11,9 @@ const JENIS_ICON: Record<string, typeof Bell> = {
 };
 
 const JENIS_WARNA: Record<string, string> = {
-  laporan: "bg-[#EDE9FE] text-[#6741D9]",
-  pesan: "bg-[#FEF9E7] text-[#FBD321]",
-  sistem: "bg-[#E6F9FA] text-[#04B5BB]",
+  laporan: "bg-primary-pale text-primary",
+  pesan: "bg-[#FEF9E7] text-accent",
+  sistem: "bg-[#E6F9FA] text-secondary",
 };
 
 export default function NotifikasiPage() {
@@ -39,7 +39,7 @@ export default function NotifikasiPage() {
 
       <div className="flex flex-wrap gap-2 mb-6">
         {(["guru", "ortu", "admin"] as const).map((r) => (
-          <button key={r} onClick={() => setRole(r)} className={`text-sm font-bold px-4 py-2 rounded-full transition-all ${role === r ? "bg-[#6741D9] text-white" : "bg-white text-gray-500 border border-gray-200 hover:border-[#6741D9]"}`}>
+          <button key={r} onClick={() => setRole(r)} className={`text-sm font-bold px-4 py-2 rounded-full transition-all ${role === r ? "bg-primary text-white" : "bg-white text-gray-500 border border-gray-200 hover:border-primary"}`}>
             {r === "guru" ? "Sebagai Guru" : r === "ortu" ? "Sebagai Orang Tua" : "Sebagai Admin"}
           </button>
         ))}
@@ -57,7 +57,7 @@ export default function NotifikasiPage() {
         {filtered.map((n) => {
           const Icon = JENIS_ICON[n.jenis] || Bell;
           return (
-            <div key={n.id} className={`bg-white rounded-xl border ${n.dibaca ? "border-gray-100" : "border-[#6741D9]/20"} shadow-sm p-4 sm:p-5`}>
+            <div key={n.id} className={`bg-white rounded-xl border ${n.dibaca ? "border-gray-100" : "border-primary/20"} shadow-sm p-4 sm:p-5`}>
               <div className="flex items-start gap-3">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${JENIS_WARNA[n.jenis]}`}>
                   <Icon size={18} />
@@ -65,7 +65,7 @@ export default function NotifikasiPage() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
                     <h3 className="text-sm font-bold text-gray-900">{n.judul}</h3>
-                    {!n.dibaca && <span className="w-2 h-2 rounded-full bg-[#6741D9] flex-shrink-0" />}
+                    {!n.dibaca && <span className="w-2 h-2 rounded-full bg-primary flex-shrink-0" />}
                   </div>
                   <p className="text-xs text-gray-500 leading-relaxed">{n.isi}</p>
                   <div className="flex items-center gap-2 mt-2">

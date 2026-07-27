@@ -19,21 +19,21 @@ export default function LandingPage() {
             <Logo size="sm" />
           </a>
           <div className="flex items-center gap-4 sm:gap-6">
-            <a href="/blog" className="text-sm text-gray-500 hover:text-[#6741D9] font-medium hidden sm:block transition-colors">
+            <a href="/blog" className="text-sm text-gray-500 hover:text-primary font-medium hidden sm:block transition-colors">
               Blog
             </a>
-            <a href="#pricing" className="text-sm text-gray-500 hover:text-[#6741D9] font-medium hidden sm:block transition-colors">
+            <a href="#pricing" className="text-sm text-gray-500 hover:text-primary font-medium hidden sm:block transition-colors">
               Harga
             </a>
-            <a href="/kontak" className="text-sm text-gray-500 hover:text-[#6741D9] font-medium hidden sm:block transition-colors">
+            <a href="/kontak" className="text-sm text-gray-500 hover:text-primary font-medium hidden sm:block transition-colors">
               Kontak
             </a>
-            <a href="#fitur" className="text-sm text-gray-500 hover:text-[#6741D9] font-medium hidden sm:block transition-colors">
+            <a href="#fitur" className="text-sm text-gray-500 hover:text-primary font-medium hidden sm:block transition-colors">
               Fitur
             </a>
             <a
               href="/demo"
-              className="bg-[#FBD321] hover:bg-[#D4A800] text-[#6741D9] text-sm font-bold px-5 py-2 rounded-full transition-all hover:shadow-lg hover:shadow-[#FBD321]/30"
+              className="bg-accent hover:bg-accent-dark text-primary text-sm font-bold px-5 py-2 rounded-full transition-all hover:shadow-lg hover:shadow-accent/30"
             >
               Coba Demo
             </a>

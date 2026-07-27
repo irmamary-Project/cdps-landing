@@ -15,7 +15,7 @@ const AUDIENCES = [
       "Komunikasi efektif dengan orang tua",
       "Branding sekolah melalui portal",
     ],
-    bg: "bg-[#6741D9]",
+    bg: "bg-primary",
     badge: "bg-white/20 text-white",
     iconColor: "text-white",
     rot: "-rotate-2",
@@ -30,7 +30,7 @@ const AUDIENCES = [
       "Buat laporan triwulan otomatis",
       "Absensi dengan geofence",
     ],
-    bg: "bg-[#04B5BB]",
+    bg: "bg-secondary",
     badge: "bg-white/20 text-white",
     iconColor: "text-white",
     rot: "rotate-1",
@@ -45,9 +45,9 @@ const AUDIENCES = [
       "Terima notifikasi otomatis",
       "Akses CCTV langsung dari HP",
     ],
-    bg: "bg-[#FBD321]",
-    badge: "bg-[#6741D9]/10 text-[#6741D9]",
-    iconColor: "text-[#6741D9]",
+    bg: "bg-accent",
+    badge: "bg-primary/10 text-primary",
+    iconColor: "text-primary",
     rot: "rotate-3",
   },
 ];
@@ -67,13 +67,13 @@ function AudienceCard({ a, index }: { a: typeof AUDIENCES[number]; index: number
       <div className="mb-6">
         <FeatureIcon name={a.key} className={a.iconColor} />
       </div>
-      <h3 className={`text-2xl font-bold mb-2 ${a.key === "ortu" ? "text-[#6741D9]" : "text-white"}`}>{a.title}</h3>
-      <p className={`text-sm mb-6 leading-relaxed ${a.key === "ortu" ? "text-[#6741D9]/70" : "text-white/70"}`}>{a.desc}</p>
+      <h3 className={`text-2xl font-bold mb-2 ${a.key === "ortu" ? "text-primary" : "text-white"}`}>{a.title}</h3>
+      <p className={`text-sm mb-6 leading-relaxed ${a.key === "ortu" ? "text-primary/70" : "text-white/70"}`}>{a.desc}</p>
       <ul className="space-y-3">
         {a.items.map((item) => (
           <li key={item} className="flex items-start gap-3 text-sm">
-            <span className={`flex-shrink-0 mt-0.5 ${a.key === "ortu" ? "text-[#6741D9]" : "text-white"}`}>✦</span>
-            <span className={`${a.key === "ortu" ? "text-[#6741D9]/80" : "text-white/80"}`}>{item}</span>
+            <span className={`flex-shrink-0 mt-0.5 ${a.key === "ortu" ? "text-primary" : "text-white"}`}>✦</span>
+            <span className={`${a.key === "ortu" ? "text-primary/80" : "text-white/80"}`}>{item}</span>
           </li>
         ))}
       </ul>
@@ -84,8 +84,8 @@ function AudienceCard({ a, index }: { a: typeof AUDIENCES[number]; index: number
 export default function ForWho() {
   return (
     <section aria-label="Untuk Siapa CDPS" className="py-20 sm:py-28 bg-white relative overflow-hidden">
-      <div className="absolute top-20 right-10 w-72 h-72 rounded-full bg-[#EDE9FE] opacity-50 blur-3xl pointer-events-none" aria-hidden="true" />
-      <div className="absolute bottom-20 left-10 w-96 h-96 rounded-full bg-[#FBD321]/10 blur-3xl pointer-events-none" aria-hidden="true" />
+      <div className="absolute top-20 right-10 w-72 h-72 rounded-full bg-primary-pale opacity-50 blur-3xl pointer-events-none" aria-hidden="true" />
+      <div className="absolute bottom-20 left-10 w-96 h-96 rounded-full bg-accent/10 blur-3xl pointer-events-none" aria-hidden="true" />
 
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">

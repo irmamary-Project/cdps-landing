@@ -4,8 +4,8 @@ import { Icon } from "@/components/decorative/FeatureIcon";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#3B1F8A] text-white/60">
-      <div className="text-[#3B1F8A] overflow-hidden leading-0">
+    <footer className="bg-deep-purple text-white/60">
+      <div className="text-deep-purple overflow-hidden leading-0">
         <Wave className="w-full h-12 sm:h-16 lg:h-20" />
       </div>
 

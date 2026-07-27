@@ -24,6 +24,9 @@
   --color-accent-dark: #D4A800;
   --color-secondary: #04B5BB;
   --color-cream: #F8FAFC;
+  --color-deep-purple: #3B1F8A;
+  --color-muted: #64748B;
+  --color-text: #0F172A;
 }
 
 html { scroll-behavior: smooth; }
