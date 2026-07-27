@@ -31,38 +31,45 @@ function StepCard({ step, index }: { step: typeof STEPS[number]; index: number }
   const isLeft = index % 2 === 0;
 
   return (
-    <div ref={ref} className="relative grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 items-center">
-      {/* Left side: text */}
-      <div className={`order-2 ${isLeft ? "lg:order-2 lg:text-right lg:pr-16" : "lg:order-1 lg:text-left lg:pl-16"}`}>
-        <motion.div
-          initial={{ opacity: 0, x: isLeft ? -40 : 40 }}
-          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: isLeft ? -40 : 40 }}
-          transition={{ duration: 0.5, delay: index * 0.2 }}
-        >
-          <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-2">{step.title}</h3>
-          <p className="text-gray-500 leading-relaxed max-w-md inline-block">{step.desc}</p>
-        </motion.div>
+    <div ref={ref} className="relative">
+      <div className={`hidden lg:flex items-center ${isLeft ? "justify-start" : "justify-end"}`}>
+        <div className={`w-1/2 ${isLeft ? "pr-16 text-right" : "pl-16 text-left"}`}>
+          <motion.div
+            initial={{ opacity: 0, x: isLeft ? -40 : 40 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: isLeft ? -40 : 40 }}
+            transition={{ duration: 0.5, delay: index * 0.2 }}
+            className={`flex items-center gap-5 ${isLeft ? "flex-row-reverse" : "flex-row"}`}
+          >
+            <div className="relative z-10 flex-shrink-0">
+              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#6741D9] to-[#7C5CF7] flex items-center justify-center shadow-lg shadow-[#6741D9]/20">
+                <Icon name={step.icon} size={24} className="text-white" />
+              </div>
+              <div className="absolute -top-1 -right-1 w-7 h-7 bg-[#FBD321] rounded-full flex items-center justify-center text-[#6741D9] text-xs font-bold shadow-md">
+                {step.num}
+              </div>
+            </div>
+            <div className={`flex-1 ${isLeft ? "text-right" : "text-left"}`}>
+              <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-1">{step.title}</h3>
+              <p className="text-gray-500 leading-relaxed text-base">{step.desc}</p>
+            </div>
+          </motion.div>
+        </div>
       </div>
 
-      {/* Center: icon */}
-      <div className="order-1 lg:order-2 flex justify-center relative z-10">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
-          transition={{ duration: 0.4, delay: index * 0.2 }}
-          className="relative"
-        >
-          <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-gradient-to-br from-[#6741D9] to-[#7C5CF7] flex items-center justify-center shadow-lg shadow-[#6741D9]/20">
-            <Icon name={step.icon} size={24} className="text-white" />
+      <div className="lg:hidden flex items-center gap-4">
+        <div className="relative z-10 flex-shrink-0">
+          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#6741D9] to-[#7C5CF7] flex items-center justify-center shadow-lg shadow-[#6741D9]/20">
+            <Icon name={step.icon} size={20} className="text-white" />
           </div>
-          <div className="absolute -top-1 -right-1 w-7 h-7 bg-[#FBD321] rounded-full flex items-center justify-center text-[#6741D9] text-xs font-bold shadow-md">
+          <div className="absolute -top-1 -right-1 w-6 h-6 bg-[#FBD321] rounded-full flex items-center justify-center text-[#6741D9] text-[10px] font-bold shadow-md">
             {step.num}
           </div>
-        </motion.div>
+        </div>
+        <div>
+          <h3 className="text-lg font-bold text-gray-900 mb-1">{step.title}</h3>
+          <p className="text-sm text-gray-500 leading-relaxed">{step.desc}</p>
+        </div>
       </div>
-
-      {/* Right side: spacer for text on the other side */}
-      <div className={`hidden lg:block order-3 ${isLeft ? "" : ""}`} />
     </div>
   );
 }
@@ -70,7 +77,6 @@ function StepCard({ step, index }: { step: typeof STEPS[number]; index: number }
 export default function HowItWorks() {
   return (
     <section aria-label="Cara Kerja CDPS" className="py-20 sm:py-28 relative overflow-hidden">
-      {/* Central timeline line */}
       <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#EDE9FE] via-[#6741D9] to-[#EDE9FE] hidden lg:block -translate-x-1/2" aria-hidden="true" />
 
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -83,7 +89,7 @@ export default function HowItWorks() {
           </p>
         </div>
 
-        <div className="space-y-16 lg:space-y-20">
+        <div className="space-y-16">
           {STEPS.map((s, i) => (
             <StepCard key={s.num} step={s} index={i} />
           ))}
