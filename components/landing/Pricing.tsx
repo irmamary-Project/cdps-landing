@@ -39,9 +39,11 @@ const PLANS = [
       "Laporan triwulan otomatis",
       "Notifikasi WhatsApp",
       "Multi guru & kelas",
+      "Live CCTV",
       "Dukungan prioritas",
     ],
-    exclude: ["CCTV tidak termasuk"],
+    notes: ["Live CCTV: biaya pemasangan & alat dibayar terpisah"],
+    exclude: [],
     cta: "Hubungi Kami",
     href: "mailto:cdps@lumizo.my.id?subject=Paket%20Pro",
   },
@@ -120,7 +122,15 @@ export default function Pricing() {
                     <span className="text-sm text-gray-600">{f}</span>
                   </div>
                 ))}
-                {plan.exclude.map((f) => (
+                {plan.notes?.map((n) => (
+                  <div key={n} className="flex items-start gap-3 mt-3 pt-3 border-t border-gray-50">
+                    <span className="w-4 h-4 rounded-full bg-[#FBD321]/30 flex items-center justify-center mt-0.5 flex-shrink-0">
+                      <span className="text-[8px] text-[#6741D9] font-bold">i</span>
+                    </span>
+                    <span className="text-xs text-gray-400 italic">{n}</span>
+                  </div>
+                ))}
+                {plan.exclude?.map((f) => (
                   <div key={f} className="flex items-start gap-3 opacity-50">
                     <span className="w-4 h-4 rounded-full border-2 border-gray-300 flex items-center justify-center mt-0.5 flex-shrink-0">
                       <span className="w-1.5 h-0.5 bg-gray-300 rounded-full" />
