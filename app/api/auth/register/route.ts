@@ -3,8 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const { nama, email, password } = body;
+    const { nama, email, password } = await req.json();
 
     if (!nama || !email || !password) {
       return NextResponse.json({ error: "Nama, email, dan password wajib diisi" }, { status: 400 });
@@ -32,36 +31,30 @@ export async function POST(req: Request) {
     });
 
     if (error) {
-      const message = error.message === "User already registered"
-        ? "Email sudah terdaftar"
-        : error.message;
       return NextResponse.json({
-        error: message,
-        errName: error.name,
-        errStatus: error.status,
-        errCode: error.code,
+        error: error.message === "User already registered" ? "Email sudah terdaftar" : error.message,
+        name: error.name,
+        status: error.status,
+        code: error.code,
       }, { status: 400 });
     }
 
-    // Auto-confirm user if service role key is available
     if (serviceRoleKey && data.user) {
-      const adminClient = createClient(supabaseUrl, serviceRoleKey, {
+      const admin = createClient(supabaseUrl, serviceRoleKey, {
         auth: { autoRefreshToken: false, persistSession: false },
       });
-      const { error: confirmError } = await adminClient.auth.admin.updateUserById(data.user.id, {
+      const { error: confirmErr } = await admin.auth.admin.updateUserById(data.user.id, {
         email_confirm: true,
       });
-      if (confirmError) {
-        return NextResponse.json({ warn: "User created but email confirmation failed", detail: confirmError.message }, { status: 200 });
+      if (confirmErr) {
+        console.warn("Auto-confirm gagal:", confirmErr.message);
       }
     }
 
     return NextResponse.json({ success: true });
   } catch (err) {
     return NextResponse.json({
-      phase: "outer catch",
-      name: err instanceof Error ? err.name : typeof err,
-      message: err instanceof Error ? err.message : String(err),
+      error: err instanceof Error ? err.message : "Terjadi kesalahan server",
     }, { status: 500 });
   }
 }
