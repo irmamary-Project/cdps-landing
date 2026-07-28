@@ -27,7 +27,7 @@ export async function POST(req: Request) {
       .single();
 
     if (schoolError) {
-      return NextResponse.json({ error: "Gagal membuat sekolah" }, { status: 500 });
+      return NextResponse.json({ error: `Gagal membuat sekolah: ${schoolError.message}` }, { status: 500 });
     }
 
     // 2. Create auth user with metadata
