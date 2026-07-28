@@ -1,15 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 
 export default function LoginPage() {
-  const searchParams = useSearchParams();
-  const errorParam = searchParams.get("error");
-
   const [loading, setLoading] = useState(false);
-  const [clientError, setClientError] = useState(errorParam || "");
+  const [clientError, setClientError] = useState("");
+
+  useEffect(() => {
+    const error = new URLSearchParams(window.location.search).get("error");
+    if (error) setClientError(error);
+  }, []);
 
   return (
     <div className="w-full max-w-sm">
