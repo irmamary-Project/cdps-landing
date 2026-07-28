@@ -216,7 +216,9 @@ AS $$
   SELECT school_id FROM public.profiles WHERE id = auth.uid();
 $$;
 
--- Schools: admin can read own school
+-- Schools: anyone can register (insert), only own school can read
+CREATE POLICY school_insert ON schools
+  FOR INSERT WITH CHECK (true);
 CREATE POLICY school_select ON schools
   FOR SELECT USING (id = get_user_school_id());
 
