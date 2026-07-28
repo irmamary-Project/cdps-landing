@@ -4,6 +4,46 @@ import { useState } from "react";
 import { DEMO_STUDENTS, DEMO_GROWTH_RECORDS } from "../lib/data";
 import StudentAvatar from "@/components/StudentAvatar";
 
+function LineChart({ records, valueKey, unit, color, maxVal }: { records: Array<{ bulan: string; bb: number; tb: number }>; valueKey: "bb" | "tb"; unit: string; color: string; maxVal: number }) {
+  const w = 300;
+  const h = 160;
+  const pad = { top: 16, right: 16, bottom: 28, left: 0 };
+  const innerW = w - pad.left - pad.right;
+  const innerH = h - pad.top - pad.bottom;
+  const n = records.length;
+
+  const points = records.map((r, i) => ({
+    x: pad.left + (i / (n - 1 || 1)) * innerW,
+    y: pad.top + innerH - ((r[valueKey] - 0) / maxVal) * innerH,
+    val: r[valueKey],
+    label: r.bulan,
+  }));
+
+  const line = points.map((p) => `${p.x},${p.y}`).join(" ");
+  const stroke = color === "primary" ? "#6741D9" : "#04B5BB";
+  const fill = color === "primary" ? "#EDE9FE" : "#E6F9FA";
+
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} className="w-full mt-2" preserveAspectRatio="xMidYMid meet">
+      {points.map((p, i) => (
+        <line key={i} x1={p.x} y1={pad.top} x2={p.x} y2={h - pad.bottom} stroke="#f0f0f0" strokeWidth="1" />
+      ))}
+      <polyline points={line} fill="none" stroke={stroke} strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
+      {points.map((p, i) => (
+        <g key={i}>
+          <circle cx={p.x} cy={p.y} r="4" fill="white" stroke={stroke} strokeWidth="2" />
+          <text x={p.x} y={p.y - 8} textAnchor="middle" fontSize="10" fontWeight="600" fill="#666">
+            {p.val}
+          </text>
+          <text x={p.x} y={h - 4} textAnchor="middle" fontSize="9" fill="#999">
+            {p.label}
+          </text>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
 function whoConclusion(records: Array<{ bb: number; tb: number }>) {
   if (records.length < 2) return null;
   const last = records[records.length - 1];
@@ -63,34 +103,11 @@ export default function TrackingFisikPage() {
       <div className="grid md:grid-cols-2 gap-6 mb-6">
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
           <h3 className="text-sm font-bold text-gray-900 mb-1">Berat Badan (kg)</h3>
-          <div className="flex items-end gap-2 h-48 mt-4">
-            {records.map((r, i) => (
-              <div key={i} className="flex-1 flex flex-col items-center gap-1 justify-end h-full">
-                <span className="text-[10px] font-semibold text-gray-500">{r.bb}</span>
-                <div
-                  className="w-full rounded-t-lg bg-gradient-to-t from-secondary to-secondary/60 transition-all"
-                  style={{ height: `${(r.bb / maxBb) * 100}%` }}
-                />
-                <span className="text-[10px] text-gray-400 mt-1 -rotate-45 origin-left whitespace-nowrap">{r.bulan}</span>
-              </div>
-            ))}
-          </div>
+          <LineChart records={records} valueKey="bb" unit="kg" color="secondary" maxVal={maxBb} />
         </div>
-
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
           <h3 className="text-sm font-bold text-gray-900 mb-1">Tinggi Badan (cm)</h3>
-          <div className="flex items-end gap-2 h-48 mt-4">
-            {records.map((r, i) => (
-              <div key={i} className="flex-1 flex flex-col items-center gap-1 justify-end h-full">
-                <span className="text-[10px] font-semibold text-gray-500">{r.tb}</span>
-                <div
-                  className="w-full rounded-t-lg bg-gradient-to-t from-primary to-primary/60 transition-all"
-                  style={{ height: `${(r.tb / maxTb) * 100}%` }}
-                />
-                <span className="text-[10px] text-gray-400 mt-1 -rotate-45 origin-left whitespace-nowrap">{r.bulan}</span>
-              </div>
-            ))}
-          </div>
+          <LineChart records={records} valueKey="tb" unit="cm" color="primary" maxVal={maxTb} />
         </div>
       </div>
 
