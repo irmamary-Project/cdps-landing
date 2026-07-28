@@ -8,16 +8,13 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 export default async function DashboardPage() {
   const cookieStore = await cookies();
   const sbCookie = cookieStore.get("sb");
-
   if (!sbCookie) redirect("/login");
 
-  let sessionData: { access_token: string };
+  let sessionData: { access_token: string; refresh_token?: string };
   try { sessionData = JSON.parse(sbCookie.value); } catch { redirect("/login"); }
 
-  const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-    global: { headers: { Authorization: `Bearer ${sessionData.access_token}` } },
-    auth: { persistSession: false },
-  });
+  const supabase = createClient(supabaseUrl, supabaseAnonKey, { auth: { persistSession: false } });
+  await supabase.auth.setSession({ access_token: sessionData.access_token, refresh_token: sessionData.refresh_token ?? "" });
 
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
@@ -27,7 +24,6 @@ export default async function DashboardPage() {
     .select("*, schools(name)")
     .eq("id", user.id)
     .single();
-
   if (!profile) redirect("/login");
 
   const { count: siswa } = await supabase
@@ -46,23 +42,16 @@ export default async function DashboardPage() {
         <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Dashboard</h1>
         <p className="text-gray-500 text-sm mt-1">Selamat datang, {profile.nama}</p>
       </div>
-
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard label="Total Siswa" value={siswa ?? 0} icon="👶" />
         <StatCard label="Laporan Bulan Ini" value={reports ?? 0} icon="📋" />
         <StatCard label="Paket" value="Gratis" icon="📦" />
         <StatCard label="Sekolah" value={profile.schools?.name ?? "-"} icon="🏫" />
       </div>
-
       {siswa === 0 && (
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-8 text-center">
           <p className="text-gray-400 text-sm mb-4">Belum ada data siswa. Mulai dengan menambahkan siswa pertama.</p>
-          <a
-            href="/dashboard/manajemen"
-            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-light text-white text-sm font-bold px-6 py-2.5 rounded-full transition-all"
-          >
-            Tambah Siswa
-          </a>
+          <a href="/dashboard/manajemen" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-light text-white text-sm font-bold px-6 py-2.5 rounded-full transition-all">Tambah Siswa</a>
         </div>
       )}
     </div>
@@ -70,11 +59,5 @@ export default async function DashboardPage() {
 }
 
 function StatCard({ label, value, icon }: { label: string; value: string | number; icon: string }) {
-  return (
-    <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
-      <div className="text-xl mb-2">{icon}</div>
-      <div className="text-xl sm:text-2xl font-bold text-gray-900">{value}</div>
-      <div className="text-xs text-gray-400 mt-1">{label}</div>
-    </div>
-  );
+  return <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm"><div className="text-xl mb-2">{icon}</div><div className="text-xl sm:text-2xl font-bold text-gray-900">{value}</div><div className="text-xs text-gray-400 mt-1">{label}</div></div>;
 }

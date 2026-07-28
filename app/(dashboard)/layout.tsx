@@ -10,31 +10,21 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const cookieStore = await cookies();
   const sbCookie = cookieStore.get("sb");
 
-  if (!sbCookie) {
-    redirect("/login");
-  }
+  if (!sbCookie) redirect("/login");
 
-  let sessionData: { access_token: string; refresh_token: string; expires_at: number };
-  try {
-    sessionData = JSON.parse(sbCookie.value);
-  } catch {
-    redirect("/login");
-  }
+  let sessionData: { access_token: string; refresh_token?: string; expires_at?: number };
+  try { sessionData = JSON.parse(sbCookie.value); } catch { redirect("/login"); }
 
-  const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-    global: {
-      headers: {
-        Authorization: `Bearer ${sessionData.access_token}`,
-      },
-    },
-    auth: { persistSession: false },
+  const supabase = createClient(supabaseUrl, supabaseAnonKey, { auth: { persistSession: false } });
+
+  await supabase.auth.setSession({
+    access_token: sessionData.access_token,
+    refresh_token: sessionData.refresh_token ?? "",
   });
 
   const { data: { user } } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect("/login");
-  }
+  if (!user) redirect("/login");
 
   const { data: profile } = await supabase
     .from("profiles")
@@ -42,13 +32,8 @@ export default async function DashboardLayout({ children }: { children: React.Re
     .eq("id", user.id)
     .single();
 
-  if (!profile) {
-    redirect("/login");
-  }
-
-  if (!profile.school_id) {
-    redirect("/onboarding");
-  }
+  if (!profile) redirect("/login");
+  if (!profile.school_id) redirect("/onboarding");
 
   return (
     <DashboardShell profile={profile}>
