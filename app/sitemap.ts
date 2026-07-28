@@ -5,9 +5,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://cdps.lumizo.my.id";
 
   const demoPages = [
-    "daily-report", "laporan", "portofolio", "manajemen-siswa", "manajemen-kelas",
-    "manajemen-guru", "notifikasi", "riwayat-daily-report", "riwayat-portofolio",
-    "absensi", "cctv", "ortu", "tracking-fisik", "settings",
+    "daily-report", "portofolio", "laporan", "manajemen",
+    "monitoring", "notifikasi", "ortu", "settings",
   ] as const;
 
   const staticPages = [

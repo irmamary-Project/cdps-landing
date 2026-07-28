@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MapPin, Clock, CheckCircle2, XCircle, LogIn, LogOut } from "lucide-react";
+import { MapPin, Clock, CheckCircle2, XCircle, LogIn, LogOut, Camera, Maximize2, Minimize2, RefreshCw } from "lucide-react";
 
 const TEACHERS = [
   { id: "g1", nama: "Bu Rina", role: "Wali Kelas KB", checkIn: "07:15", checkOut: null, status: "hadir" as const, lat: -6.2088, lng: 106.8456 },
@@ -13,19 +13,26 @@ const TEACHERS = [
   { id: "g7", nama: "Bu Ani", role: "Staff Administrasi", checkIn: "07:05", checkOut: null, status: "hadir" as const, lat: -6.2087, lng: 106.8455 },
 ];
 
-export default function AbsensiPage() {
+const CAMERAS = [
+  { id: "cam1", name: "Ruang Kelas A - TK A", status: "online", seed: "cam-a" },
+  { id: "cam2", name: "Ruang Kelas B - TK B", status: "online", seed: "cam-b" },
+  { id: "cam3", name: "Taman Bermain", status: "online", seed: "cam-play" },
+  { id: "cam4", name: "Lobby Utama", status: "online", seed: "cam-lobby" },
+  { id: "cam5", name: "Ruang Makan", status: "offline", seed: "cam-eat" },
+  { id: "cam6", name: "Halaman Depan", status: "online", seed: "cam-yard" },
+  { id: "cam7", name: "Ruang Guru", status: "online", seed: "cam-staff" },
+  { id: "cam8", name: "Kantin", status: "maintenance", seed: "cam-cafe" },
+];
+
+function AbsensiSection() {
   const [currentTime] = useState(new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }));
   const hadir = TEACHERS.filter((t) => t.status === "hadir").length;
   const izin = TEACHERS.filter((t) => t.status === "izin").length;
   const total = TEACHERS.length;
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto">
       <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
-        <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Absensi Guru</h1>
-          <p className="text-gray-500 text-sm mt-1">Check-in/out dengan geofence — real-time</p>
-        </div>
         <div className="flex items-center gap-2 text-sm text-gray-500 bg-white px-4 py-2 rounded-xl border border-gray-100 shadow-sm">
           <Clock size={14} />
           <span>{currentTime}</span>
@@ -162,6 +169,127 @@ export default function AbsensiPage() {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+function CCTVSection() {
+  const [fullscreen, setFullscreen] = useState<string | null>(null);
+  const [layout, setLayout] = useState<"grid" | "list">("grid");
+
+  return (
+    <div className="max-w-7xl mx-auto">
+      <button
+        onClick={() => setLayout(layout === "grid" ? "list" : "grid")}
+        className="flex items-center gap-2 text-sm text-gray-500 hover:text-primary border border-gray-200 hover:border-primary px-4 py-2 rounded-xl transition-all mb-6"
+      >
+        <RefreshCw size={14} />
+        {layout === "grid" ? "Tampilan Grid" : "Tampilan Daftar"}
+      </button>
+
+      <div className={`grid gap-4 ${fullscreen ? "grid-cols-1" : layout === "grid" ? "grid-cols-2 lg:grid-cols-4" : "grid-cols-1"}`}>
+        {CAMERAS.map((cam) => {
+          if (fullscreen && fullscreen !== cam.id) return null;
+          const isOffline = cam.status === "offline" || cam.status === "maintenance";
+          return (
+            <div
+              key={cam.id}
+              className={`relative bg-gray-900 rounded-2xl overflow-hidden border border-gray-800 group ${fullscreen === cam.id ? "min-h-[70vh]" : "aspect-video"}`}
+            >
+              {isOffline ? (
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-white/40 bg-gray-950">
+                  <Camera size={40} className="mb-3 opacity-30" />
+                  <span className="text-sm font-medium">
+                    {cam.status === "maintenance" ? "Perawatan" : "Offline"}
+                  </span>
+                </div>
+              ) : (
+                <img
+                  src={`https://picsum.photos/seed/${cam.seed}/640/360`}
+                  alt={`Camera ${cam.name}`}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              )}
+
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+
+              <div className="absolute top-3 left-3 flex items-center gap-2">
+                <span className={`w-2 h-2 rounded-full ${cam.status === "online" ? "bg-green-500 animate-pulse" : cam.status === "maintenance" ? "bg-yellow-500" : "bg-red-500"}`} />
+                <span className="text-white/80 text-xs font-medium drop-shadow-sm">{cam.name}</span>
+              </div>
+
+              <div className="absolute top-3 right-3 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <span className="bg-black/50 text-white/70 text-[10px] px-2 py-0.5 rounded font-mono">REC</span>
+                <button
+                  onClick={() => setFullscreen(fullscreen === cam.id ? null : cam.id)}
+                  className="bg-black/50 text-white/70 hover:text-white p-1.5 rounded-lg transition-colors"
+                  aria-label={fullscreen === cam.id ? "Keluar layar penuh" : "Layar penuh"}
+                >
+                  {fullscreen === cam.id ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
+                </button>
+              </div>
+
+              <div className="absolute bottom-3 left-3 text-white/50 text-[10px] font-mono">
+                {new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="mt-6 p-4 bg-white rounded-xl border border-gray-100 shadow-sm">
+        <div className="flex items-center gap-4 text-sm text-gray-500 flex-wrap">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+            <span>{CAMERAS.filter((c) => c.status === "online").length} Online</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-red-500" />
+            <span>{CAMERAS.filter((c) => c.status === "offline").length} Offline</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-yellow-500" />
+            <span>{CAMERAS.filter((c) => c.status === "maintenance").length} Perawatan</span>
+          </div>
+          <span className="text-gray-300 mx-2 hidden sm:inline">|</span>
+          <span className="text-xs text-gray-400">*Live CCTV tersedia di paket Pro & Enterprise (biaya pemasangan & alat dibayar terpisah)</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const TABS = [
+  { key: "absensi", label: "Absensi Guru" },
+  { key: "cctv", label: "CCTV" },
+];
+
+export default function MonitoringPage() {
+  const [tab, setTab] = useState("absensi");
+
+  return (
+    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
+      <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Monitoring</h1>
+          <p className="text-gray-500 text-sm mt-1">Pantau kehadiran guru dan CCTV sekolah</p>
+        </div>
+        <div className="flex gap-1 bg-gray-100 rounded-xl p-1">
+          {TABS.map((t) => (
+            <button
+              key={t.key}
+              onClick={() => setTab(t.key)}
+              className={`text-sm font-bold px-4 py-2 rounded-lg transition-all ${tab === t.key ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"}`}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {tab === "absensi" && <AbsensiSection />}
+      {tab === "cctv" && <CCTVSection />}
     </div>
   );
 }
