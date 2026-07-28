@@ -1,14 +1,15 @@
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    if (!supabaseUrl || !supabaseKey) {
       return NextResponse.json({ error: "Konfigurasi database belum lengkap." }, { status: 500 });
     }
 
     const body = await req.json();
-    console.log("[register] body:", body);
     const { nama, email, password } = body;
 
     if (!nama || !email || !password) {
@@ -18,9 +19,11 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Password minimal 6 karakter" }, { status: 400 });
     }
 
-    const supabase = await createClient();
+    const supabase = createClient(supabaseUrl, supabaseKey, {
+      auth: { autoRefreshToken: false, persistSession: false },
+    });
 
-    const { error: signUpError } = await supabase.auth.signUp({
+    const { data, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
       options: {
