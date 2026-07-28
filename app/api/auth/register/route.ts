@@ -46,7 +46,8 @@ export async function POST(req: Request) {
         code: signUpResult.error.code,
         statusCode: signUpResult.error.status,
         name: signUpResult.error.name,
-        supabaseUrl: supabaseUrl.slice(0, 30) + "...",
+        supabaseUrl: supabaseUrl,
+        anonKeyPrefix: supabaseKey.substring(0, 20) + "...",
       }, { status: 400 });
     }
 
