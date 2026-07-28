@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Logo from "@/components/Logo";
 import Wave from "@/components/decorative/Wave";
 import { Icon } from "@/components/decorative/FeatureIcon";
@@ -63,7 +64,10 @@ export default function Footer() {
 
         <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/40">
           <span>for better childhood education</span>
-          <span>CDPS by Lumizo</span>
+          <div className="flex items-center gap-4">
+            <Link href="/kebijakan-privasi" className="hover:text-white transition-colors">Kebijakan Privasi</Link>
+            <span>CDPS by Lumizo</span>
+          </div>
         </div>
       </div>
     </footer>
