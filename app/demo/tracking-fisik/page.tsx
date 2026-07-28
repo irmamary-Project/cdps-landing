@@ -4,7 +4,19 @@ import { useState } from "react";
 import { DEMO_STUDENTS, DEMO_GROWTH_RECORDS } from "../lib/data";
 import StudentAvatar from "@/components/StudentAvatar";
 
-function LineChart({ records, valueKey, unit, color, maxVal }: { records: Array<{ bulan: string; bb: number; tb: number }>; valueKey: "bb" | "tb"; unit: string; color: string; maxVal: number }) {
+function calcBMI(bb: number, tb: number) {
+  const tm = tb / 100;
+  return +(bb / (tm * tm)).toFixed(1);
+}
+
+function bmiLabel(bmi: number) {
+  if (bmi < 14) return { label: "Kurus", color: "text-yellow-600" };
+  if (bmi <= 16.5) return { label: "Normal", color: "text-green-600" };
+  if (bmi <= 18.5) return { label: "Overweight", color: "text-orange-600" };
+  return { label: "Obesitas", color: "text-red-600" };
+}
+
+function LineChart({ records, valueKey, color, maxVal }: { records: Array<{ bulan: string; bb: number; tb: number }>; valueKey: "bb" | "tb" | "bmi"; color: string; maxVal: number }) {
   const w = 300;
   const h = 160;
   const pad = { top: 16, right: 16, bottom: 28, left: 0 };
@@ -12,16 +24,19 @@ function LineChart({ records, valueKey, unit, color, maxVal }: { records: Array<
   const innerH = h - pad.top - pad.bottom;
   const n = records.length;
 
-  const points = records.map((r, i) => ({
-    x: pad.left + (i / (n - 1 || 1)) * innerW,
-    y: pad.top + innerH - ((r[valueKey] - 0) / maxVal) * innerH,
-    val: r[valueKey],
-    label: r.bulan,
-  }));
+  const points = records.map((r, i) => {
+    const val = valueKey === "bmi" ? calcBMI(r.bb, r.tb) : r[valueKey];
+    return {
+      x: pad.left + (i / (n - 1 || 1)) * innerW,
+      y: pad.top + innerH - ((val - 0) / maxVal) * innerH,
+      val,
+      label: r.bulan,
+    };
+  });
 
   const line = points.map((p) => `${p.x},${p.y}`).join(" ");
-  const stroke = color === "primary" ? "#6741D9" : "#04B5BB";
-  const fill = color === "primary" ? "#EDE9FE" : "#E6F9FA";
+  const stroke = color === "primary" ? "#6741D9" : color === "secondary" ? "#04B5BB" : "#FBD321";
+  const fill = color === "primary" ? "#EDE9FE" : color === "secondary" ? "#E6F9FA" : "#FEF9E7";
 
   return (
     <svg viewBox={`0 0 ${w} ${h}`} className="w-full mt-2" preserveAspectRatio="xMidYMid meet">
@@ -44,7 +59,7 @@ function LineChart({ records, valueKey, unit, color, maxVal }: { records: Array<
   );
 }
 
-function whoConclusion(records: Array<{ bb: number; tb: number }>) {
+function whoConclusion(records: Array<{ bb: number; tb: number }>, bmi: number) {
   if (records.length < 2) return null;
   const last = records[records.length - 1];
   const prev = records[records.length - 2];
@@ -53,14 +68,23 @@ function whoConclusion(records: Array<{ bb: number; tb: number }>) {
 
   const bbNormal = deltaBb >= 0.3 && deltaBb <= 0.8;
   const tbNormal = deltaTb >= 1.5 && deltaTb <= 3.5;
+  const bmiInfo = bmiLabel(bmi);
+  const bmiNormal = bmiInfo.label === "Normal";
 
-  if (bbNormal && tbNormal) {
-    return { status: "normal" as const, text: "BB/U & TB/U: Normal — Anak berada dalam rentang pertumbuhan normal menurut standar WHO.", color: "bg-green-50 border-green-200 text-green-700" };
-  }
-  if (!bbNormal && deltaBb < 0.3) {
-    return { status: "warning" as const, text: "BB/U: Perhatian — Kenaikan berat badan cenderung rendah. Disarankan konsultasi dengan ahli gizi untuk evaluasi asupan makanan.", color: "bg-yellow-50 border-yellow-200 text-yellow-700" };
-  }
-  return { status: "normal" as const, text: "TB/U: Normal — Pertumbuhan tinggi badan dalam rentang yang diharapkan menurut kurva WHO.", color: "bg-green-50 border-green-200 text-green-700" };
+  const parts: string[] = [];
+  if (bbNormal) parts.push("BB/U: Normal");
+  else parts.push("BB/U: Perhatian — kenaikan berat badan rendah");
+  if (tbNormal) parts.push("TB/U: Normal");
+  else parts.push("TB/U: Perhatian — pertumbuhan tinggi badan melambat");
+  parts.push(`IMT/U: ${bmiInfo.label}`);
+
+  const allNormal = bbNormal && tbNormal && bmiNormal;
+  const text = parts.join(". ") + ". " + (allNormal
+    ? "Anak berada dalam rentang pertumbuhan normal menurut standar WHO."
+    : "Disarankan konsultasi dengan tenaga kesehatan untuk evaluasi lebih lanjut.");
+
+  const statusVal: "normal" | "warning" = allNormal ? "normal" : "warning";
+  return { status: statusVal, text, color: allNormal ? "bg-green-50 border-green-200 text-green-700" : "bg-yellow-50 border-yellow-200 text-yellow-700" };
 }
 
 export default function TrackingFisikPage() {
@@ -70,7 +94,9 @@ export default function TrackingFisikPage() {
 
   const maxBb = Math.max(...records.map((r) => r.bb), 10);
   const maxTb = Math.max(...records.map((r) => r.tb), 80);
-  const conclusion = whoConclusion(records);
+  const maxBmi = Math.max(...records.map((r) => calcBMI(r.bb, r.tb)), 20);
+  const latestBmi = records.length > 0 ? calcBMI(records[records.length - 1].bb, records[records.length - 1].tb) : 0;
+  const conclusion = whoConclusion(records, latestBmi);
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto">
@@ -100,14 +126,22 @@ export default function TrackingFisikPage() {
         </div>
       )}
 
-      <div className="grid md:grid-cols-2 gap-6 mb-6">
+      <div className="grid md:grid-cols-3 gap-6 mb-6">
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
           <h3 className="text-sm font-bold text-gray-900 mb-1">Berat Badan (kg)</h3>
-          <LineChart records={records} valueKey="bb" unit="kg" color="secondary" maxVal={maxBb} />
+          <LineChart records={records} valueKey="bb" color="secondary" maxVal={maxBb} />
         </div>
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
           <h3 className="text-sm font-bold text-gray-900 mb-1">Tinggi Badan (cm)</h3>
-          <LineChart records={records} valueKey="tb" unit="cm" color="primary" maxVal={maxTb} />
+          <LineChart records={records} valueKey="tb" color="primary" maxVal={maxTb} />
+        </div>
+        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+          <h3 className="text-sm font-bold text-gray-900 mb-1">BMI ({latestBmi})</h3>
+          <LineChart records={records} valueKey="bmi" color="accent" maxVal={maxBmi} />
+          {records.length > 0 && (() => {
+            const info = bmiLabel(latestBmi);
+            return <p className={`text-xs font-semibold mt-2 text-center ${info.color}`}>{info.label}</p>;
+          })()}
         </div>
       </div>
 
@@ -122,21 +156,21 @@ export default function TrackingFisikPage() {
                 <th className="px-5 py-3 font-semibold text-gray-600">Bulan</th>
                 <th className="px-5 py-3 font-semibold text-gray-600">BB (kg)</th>
                 <th className="px-5 py-3 font-semibold text-gray-600">TB (cm)</th>
-                <th className="px-5 py-3 font-semibold text-gray-600 hidden sm:table-cell">Delta BB</th>
-                <th className="px-5 py-3 font-semibold text-gray-600 hidden sm:table-cell">Delta TB</th>
+                <th className="px-5 py-3 font-semibold text-gray-600 hidden sm:table-cell">IMT</th>
+                <th className="px-5 py-3 font-semibold text-gray-600 hidden sm:table-cell">Status IMT</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
               {records.map((r, i) => {
-                const deltaBb = i > 0 ? (r.bb - records[i - 1].bb).toFixed(1) : "–";
-                const deltaTb = i > 0 ? (r.tb - records[i - 1].tb).toFixed(1) : "–";
+                const bmi = calcBMI(r.bb, r.tb);
+                const info = bmiLabel(bmi);
                 return (
                   <tr key={i} className="hover:bg-gray-50/50">
                     <td className="px-5 py-3 font-semibold text-gray-900">{r.bulan}</td>
                     <td className="px-5 py-3 text-gray-600">{r.bb}</td>
                     <td className="px-5 py-3 text-gray-600">{r.tb}</td>
-                    <td className="px-5 py-3 text-gray-600 hidden sm:table-cell">{deltaBb}</td>
-                    <td className="px-5 py-3 text-gray-600 hidden sm:table-cell">{deltaTb}</td>
+                    <td className="px-5 py-3 text-gray-600 hidden sm:table-cell">{bmi}</td>
+                    <td className="px-5 py-3 hidden sm:table-cell"><span className={`text-xs font-semibold ${info.color}`}>{info.label}</span></td>
                   </tr>
                 );
               })}
