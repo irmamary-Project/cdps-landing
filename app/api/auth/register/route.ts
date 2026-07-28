@@ -36,7 +36,6 @@ export async function POST(req: Request) {
         phase: "signUp threw",
         name: signUpCatchErr instanceof Error ? signUpCatchErr.name : typeof signUpCatchErr,
         message: signUpCatchErr instanceof Error ? signUpCatchErr.message : String(signUpCatchErr),
-        stack: signUpCatchErr instanceof Error ? signUpCatchErr.stack?.slice(0, 300) : null,
       }, { status: 500 });
     }
 
@@ -47,7 +46,7 @@ export async function POST(req: Request) {
         code: signUpResult.error.code,
         statusCode: signUpResult.error.status,
         name: signUpResult.error.name,
-        full: JSON.stringify(signUpResult.error),
+        supabaseUrl: supabaseUrl.slice(0, 30) + "...",
       }, { status: 400 });
     }
 
