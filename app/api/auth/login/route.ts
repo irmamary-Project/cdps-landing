@@ -11,6 +11,7 @@ export async function POST(req: Request) {
     }
 
     const cookieStore = await cookies();
+    const response = NextResponse.redirect(new URL("/dashboard", req.url), { status: 303 });
 
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -19,7 +20,9 @@ export async function POST(req: Request) {
         cookies: {
           getAll() { return cookieStore.getAll(); },
           setAll(cookiesToSet) {
-            // Don't set cookies here; we'll set them on the redirect response
+            cookiesToSet.forEach(({ name, value, options }) => {
+              response.cookies.set(name, value, options);
+            });
           },
         },
       },
@@ -36,23 +39,6 @@ export async function POST(req: Request) {
     if (!data.session) {
       return NextResponse.json({ error: "Gagal mendapatkan sesi" }, { status: 500 });
     }
-
-    const response = NextResponse.redirect(new URL("/dashboard", req.url), { status: 303 });
-
-    const { access_token, refresh_token, expires_at } = data.session;
-    const isSecure = process.env.NODE_ENV === "production";
-
-    response.cookies.set("sb-uukotaigrofcoiyymktg-auth-token", JSON.stringify({
-      access_token,
-      refresh_token,
-      expires_at,
-    }), {
-      httpOnly: false,
-      secure: isSecure,
-      sameSite: "lax",
-      path: "/",
-      maxAge: 60 * 60 * 24 * 365,
-    });
 
     return response;
   } catch (err) {
