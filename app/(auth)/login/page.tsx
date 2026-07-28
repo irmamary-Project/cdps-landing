@@ -18,19 +18,20 @@ export default function LoginPage() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
-      redirect: "follow",
+      redirect: "manual",
     });
 
-    if (res.redirected) {
-      window.location.href = res.url;
+    if (res.status === 303 || res.type === "opaqueredirect") {
+      window.location.href = "/dashboard";
     } else {
-      const url = new URL(res.url);
-      if (url.searchParams.has("error")) {
-        setServerError(decodeURIComponent(url.searchParams.get("error")!));
-        setLoading(false);
-      } else {
-        window.location.href = "/dashboard";
+      const text = await res.text();
+      try {
+        const data = JSON.parse(text);
+        setServerError(data.error || "Gagal masuk");
+      } catch {
+        setServerError(text || "Gagal masuk");
       }
+      setLoading(false);
     }
   };
 
