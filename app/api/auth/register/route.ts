@@ -17,30 +17,49 @@ export async function POST(req: Request) {
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
     if (!supabaseUrl || !supabaseKey) {
-      return NextResponse.json({ error: "Env SUPABASE_URL atau SUPABASE_KEY tidak ditemukan", url: supabaseUrl || null }, { status: 500 });
+      return NextResponse.json({ config: "env vars tidak ditemukan" }, { status: 500 });
     }
 
     const supabase = createClient(supabaseUrl, supabaseKey, {
       auth: { autoRefreshToken: false, persistSession: false },
     });
 
-    const { data, error: signUpError } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: { nama, role: "admin" } },
-    });
-
-    if (signUpError) {
+    let signUpResult;
+    try {
+      signUpResult = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: { nama, role: "admin" } },
+      });
+    } catch (signUpCatchErr) {
       return NextResponse.json({
-        error: signUpError.message || "Gagal mendaftar",
-        code: signUpError.code,
-        status: signUpError.status,
+        phase: "signUp threw",
+        name: signUpCatchErr instanceof Error ? signUpCatchErr.name : typeof signUpCatchErr,
+        message: signUpCatchErr instanceof Error ? signUpCatchErr.message : String(signUpCatchErr),
+        stack: signUpCatchErr instanceof Error ? signUpCatchErr.stack?.slice(0, 300) : null,
+      }, { status: 500 });
+    }
+
+    if (signUpResult.error) {
+      return NextResponse.json({
+        phase: "signUp returned error",
+        message: signUpResult.error.message,
+        code: signUpResult.error.code,
+        statusCode: signUpResult.error.status,
+        name: signUpResult.error.name,
+        full: JSON.stringify(signUpResult.error),
       }, { status: 400 });
     }
 
-    return NextResponse.json({ success: true, userId: data.user?.id });
+    return NextResponse.json({
+      phase: "success",
+      userId: signUpResult.data?.user?.id,
+    });
   } catch (err) {
-    const message = err instanceof Error ? err.message : "Terjadi kesalahan server";
-    return NextResponse.json({ error: message }, { status: 500 });
+    return NextResponse.json({
+      phase: "outer catch",
+      name: err instanceof Error ? err.name : typeof err,
+      message: err instanceof Error ? err.message : String(err),
+    }, { status: 500 });
   }
 }
