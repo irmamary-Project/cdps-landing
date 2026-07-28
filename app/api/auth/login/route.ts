@@ -10,9 +10,10 @@ export async function POST(req: Request) {
     let password: string;
 
     if (ct.includes("application/x-www-form-urlencoded")) {
-      const form = await req.formData();
-      email = (form.get("email") as string) || "";
-      password = (form.get("password") as string) || "";
+      const text = await req.text();
+      const params = new URLSearchParams(text);
+      email = params.get("email") || "";
+      password = params.get("password") || "";
     } else {
       const json = await req.json();
       email = json.email || "";
@@ -65,12 +66,9 @@ export async function POST(req: Request) {
 
     return response;
   } catch (err) {
-    return NextResponse.redirect(
-      new URL(
-        `/login?error=${err instanceof Error ? encodeURIComponent(err.message).replace(/%20/g, "+") : "Terjadi+kesalahan+server"}`,
-        req.url,
-      ),
-      { status: 303 },
-    );
+    const msg = err instanceof Error ? err.message : "Terjadi kesalahan server";
+    const url = new URL("/login", req.url);
+    url.searchParams.set("error", msg);
+    return NextResponse.redirect(url, { status: 303 });
   }
 }
