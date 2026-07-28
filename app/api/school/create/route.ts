@@ -38,8 +38,14 @@ export async function POST(req: Request) {
 
     const { error: profileError } = await admin
       .from("profiles")
-      .update({ school_id: school.id })
-      .eq("id", user.id);
+      .upsert({
+        id: user.id,
+        school_id: school.id,
+        nama: user.user_metadata?.nama ?? user.email ?? "",
+        email: user.email ?? "",
+        role: user.user_metadata?.role ?? "admin",
+        is_active: true,
+      }, { onConflict: "id" });
 
     if (profileError) {
       return NextResponse.json({ error: profileError.message }, { status: 500 });
