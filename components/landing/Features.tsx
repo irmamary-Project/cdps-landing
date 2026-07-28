@@ -22,7 +22,7 @@ const FEATURES = [
   {
     key: "laporan",
     title: "Laporan Perkembangan",
-    desc: "Laporan triwulan berdasarkan 8 aspek fitrah. Evaluasi perkembangan anak secara komprehensif dan terstruktur.",
+    desc: "Laporan triwulan berdasarkan 8 aspek perkembangan. Evaluasi perkembangan anak secara komprehensif dan terstruktur.",
     color: "bg-accent",
     iconColor: "text-primary",
   },

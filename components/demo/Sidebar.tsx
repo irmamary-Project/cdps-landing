@@ -15,6 +15,8 @@ import {
   Bell,
   Clock,
   Archive,
+  MapPin,
+  Eye,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -35,8 +37,10 @@ const NAV: NavItem[] = [
   { href: "/demo/riwayat-portofolio", label: "Riwayat Portofolio", icon: Archive, new: true },
   { href: "/demo/manajemen-siswa", label: "Manajemen Siswa", icon: Users, new: true },
   { href: "/demo/manajemen-kelas", label: "Manajemen Kelas", icon: GraduationCap, new: true },
+  { href: "/demo/absensi", label: "Absensi Guru", icon: MapPin, new: true },
+  { href: "/demo/cctv", label: "CCTV", icon: Camera, new: true },
   { href: "/demo/notifikasi", label: "Notifikasi", icon: Bell, new: true },
-  { href: "#", label: "CCTV", icon: Camera, disabled: true },
+  { href: "/demo/ortu", label: "Portal Orang Tua", icon: Eye, new: true },
 ];
 
 export default function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
