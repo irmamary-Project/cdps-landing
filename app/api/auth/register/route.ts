@@ -1,3 +1,4 @@
+import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -14,43 +15,40 @@ export async function POST(req: Request) {
 
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
     if (!supabaseUrl || !supabaseKey) {
-      return NextResponse.json({ config: "env vars tidak ditemukan" }, { status: 500 });
+      return NextResponse.json({ error: "Konfigurasi database belum lengkap." }, { status: 500 });
     }
 
-    // Call GoTrue API directly to see actual HTTP response
-    const gotrueUrl = `${supabaseUrl}/auth/v1/signup`;
-    const gotrueBody = JSON.stringify({
+    const supabase = createClient(supabaseUrl, supabaseKey, {
+      auth: { autoRefreshToken: false, persistSession: false },
+    });
+
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      data: { nama, role: "admin" },
+      options: { data: { nama, role: "admin" } },
     });
 
-    let fetchResp;
-    try {
-      fetchResp = await fetch(gotrueUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          apikey: supabaseKey,
-        },
-        body: gotrueBody,
-      });
-    } catch (fetchErr) {
-      return NextResponse.json({
-        phase: "fetch threw",
-        message: fetchErr instanceof Error ? fetchErr.message : String(fetchErr),
-      }, { status: 500 });
+    if (error) {
+      const message = error.message === "User already registered"
+        ? "Email sudah terdaftar"
+        : error.message;
+      return NextResponse.json({ error: message }, { status: 400 });
     }
 
-    const responseText = await fetchResp.text();
-    return NextResponse.json({
-      phase: "direct fetch",
-      status: fetchResp.status,
-      body: responseText,
-      supabaseUrl,
-    });
+    // Auto-confirm user if service role key is available
+    if (serviceRoleKey && data.user) {
+      const adminClient = createClient(supabaseUrl, serviceRoleKey, {
+        auth: { autoRefreshToken: false, persistSession: false },
+      });
+      await adminClient.auth.admin.updateUserById(data.user.id, {
+        email_confirm: true,
+      });
+    }
+
+    return NextResponse.json({ success: true });
   } catch (err) {
     return NextResponse.json({
       phase: "outer catch",
