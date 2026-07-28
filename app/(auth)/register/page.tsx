@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function RegisterPage() {
-  const [form, setForm] = useState({ sekolah: "", nama: "", email: "", password: "" });
+  const [form, setForm] = useState({ nama: "", email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -19,7 +19,7 @@ export default function RegisterPage() {
     const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
+      body: JSON.stringify({ nama: form.nama, email: form.email, password: form.password }),
     });
 
     const data = await res.json();
@@ -44,7 +44,7 @@ export default function RegisterPage() {
           </div>
           <h2 className="text-lg font-bold text-gray-900 mb-2">Pendaftaran Berhasil!</h2>
           <p className="text-sm text-gray-500 mb-6">
-            Silakan cek email Anda untuk verifikasi, lalu masuk ke akun.
+            Silakan cek email Anda untuk verifikasi, lalu masuk.
           </p>
           <Link
             href="/login"
@@ -60,22 +60,10 @@ export default function RegisterPage() {
   return (
     <div className="w-full max-w-sm">
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sm:p-8">
-        <h1 className="text-xl font-bold text-gray-900 mb-1">Daftar Sekolah</h1>
-        <p className="text-sm text-gray-500 mb-6">Buat akun admin sekolah Anda</p>
+        <h1 className="text-xl font-bold text-gray-900 mb-1">Buat Akun</h1>
+        <p className="text-sm text-gray-500 mb-6">Daftar untuk mulai menggunakan CDPS</p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="sekolah" className="block text-sm font-medium text-gray-700 mb-1">Nama Sekolah</label>
-            <input
-              id="sekolah"
-              required
-              value={form.sekolah}
-              onChange={(e) => setForm({ ...form, sekolah: e.target.value })}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-              placeholder="TK Pelita Harapan"
-            />
-          </div>
-
           <div>
             <label htmlFor="nama" className="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
             <input

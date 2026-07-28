@@ -88,7 +88,7 @@ export default function LoginPage() {
         <p className="mt-6 text-center text-sm text-gray-500">
           Belum punya akun?{" "}
           <Link href="/register" className="text-primary hover:underline font-semibold">
-            Daftar Sekolah
+            Daftar
           </Link>
         </p>
       </div>

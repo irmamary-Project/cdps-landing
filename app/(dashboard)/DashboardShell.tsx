@@ -24,7 +24,7 @@ export default function DashboardShell({
   profile,
   children,
 }: {
-  profile: { id: string; nama: string; role: string; email?: string; schools: { name: string } };
+  profile: { id: string; nama: string; role: string; email?: string; schools: { name: string } | null };  // schools is null during onboarding (should not appear after redirect but keep safe)
   children: React.ReactNode;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -104,7 +104,7 @@ export default function DashboardShell({
               <Menu size={20} />
             </button>
             <div className="text-sm text-gray-400 ml-auto">
-              {profile.schools.name}
+              {profile.schools?.name ?? ""}
             </div>
           </div>
         </header>

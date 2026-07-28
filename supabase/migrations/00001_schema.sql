@@ -51,7 +51,7 @@ CREATE TYPE user_role AS ENUM ('admin', 'guru', 'orang_tua');
 
 CREATE TABLE profiles (
   id          uuid PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
-  school_id   uuid NOT NULL REFERENCES schools(id) ON DELETE CASCADE,
+  school_id   uuid REFERENCES schools(id) ON DELETE SET NULL,
   role        user_role NOT NULL DEFAULT 'guru',
   nama        text NOT NULL,
   email       text,
@@ -65,13 +65,15 @@ CREATE TABLE profiles (
 -- Auto-create profile on auth.users insert
 CREATE OR REPLACE FUNCTION auto_create_profile()
 RETURNS trigger AS $$
+DECLARE
+  meta jsonb := NEW.raw_user_meta_data;
 BEGIN
   INSERT INTO public.profiles (id, school_id, role, nama, email)
   VALUES (
     NEW.id,
-    (NEW.raw_user_meta_data->>'school_id')::uuid,
-    (NEW.raw_user_meta_data->>'role')::user_role,
-    NEW.raw_user_meta_data->>'nama',
+    (meta->>'school_id')::uuid,
+    COALESCE((meta->>'role')::user_role, 'admin'::user_role),
+    COALESCE(meta->>'nama', NEW.email),
     NEW.email
   );
   RETURN NEW;
@@ -208,7 +210,7 @@ ALTER TABLE portfolios ENABLE ROW LEVEL SECURITY;
 ALTER TABLE growth_records ENABLE ROW LEVEL SECURITY;
 ALTER TABLE attendance ENABLE ROW LEVEL SECURITY;
 
--- Helper: get current user's school_id
+-- Helper: get current user's school_id (nullable — user may not have a school yet)
 CREATE OR REPLACE FUNCTION get_user_school_id()
 RETURNS uuid
 LANGUAGE sql STABLE SECURITY DEFINER

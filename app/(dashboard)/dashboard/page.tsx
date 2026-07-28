@@ -13,12 +13,12 @@ export default async function DashboardPage() {
   const { count: siswa } = await supabase
     .from("students")
     .select("*", { count: "exact", head: true })
-    .eq("school_id", profile!.school_id);
+    .eq("school_id", profile!.school_id!);
 
   const { count: reports } = await supabase
     .from("daily_reports")
     .select("*", { count: "exact", head: true })
-    .eq("school_id", profile!.school_id);
+    .eq("school_id", profile!.school_id!);
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto">
@@ -31,7 +31,7 @@ export default async function DashboardPage() {
         <StatCard label="Total Siswa" value={siswa ?? 0} icon="👶" />
         <StatCard label="Laporan Bulan Ini" value={reports ?? 0} icon="📋" />
         <StatCard label="Paket" value="Gratis" icon="📦" />
-        <StatCard label="Sekolah" value={profile?.schools.name ?? "-"} icon="🏫" />
+        <StatCard label="Sekolah" value={profile?.schools?.name ?? "-"} icon="🏫" />
       </div>
 
       {siswa === 0 && (
