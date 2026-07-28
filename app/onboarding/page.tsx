@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function OnboardingPage() {
   const [form, setForm] = useState({ name: "", address: "", phone: "" });
@@ -27,8 +28,7 @@ export default function OnboardingPage() {
       return;
     }
 
-    router.push("/dashboard");
-    router.refresh();
+    window.location.href = "/dashboard";
   };
 
   return (
@@ -93,6 +93,12 @@ export default function OnboardingPage() {
               {loading ? "Menyimpan..." : "Simpan"}
             </button>
           </form>
+
+          <p className="mt-6 text-center text-sm text-gray-500">
+            <Link href="/api/auth/logout" className="text-primary hover:underline font-semibold">
+              Keluar
+            </Link>
+          </p>
         </div>
       </div>
     </div>

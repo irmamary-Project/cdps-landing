@@ -21,7 +21,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   }
 
   if (!profile.school_id) {
-    redirect("/dashboard/onboarding");
+    redirect("/onboarding");
   }
 
   return (
