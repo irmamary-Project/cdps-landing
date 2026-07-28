@@ -35,10 +35,9 @@ export default function Footer() {
             <ul className="space-y-3 text-sm">
               <li><a href="/#pricing" className="hover:text-white transition-colors">Harga</a></li>
               <li><a href="/kontak" className="hover:text-white transition-colors">Kontak</a></li>
-              <li><a href="/demo/daily-report" className="hover:text-white transition-colors">Daily Report</a></li>
-              <li><a href="/demo/portofolio" className="hover:text-white transition-colors">Portofolio Digital</a></li>
-              <li><a href="/demo/laporan" className="hover:text-white transition-colors">Laporan Perkembangan</a></li>
               <li><a href="/blog" className="hover:text-white transition-colors">Blog</a></li>
+              <li><a href="/kebijakan-privasi" className="hover:text-white transition-colors">Kebijakan Privasi</a></li>
+              <li><a href="/syarat-ketentuan" className="hover:text-white transition-colors">Syarat &amp; Ketentuan</a></li>
             </ul>
           </div>
 
