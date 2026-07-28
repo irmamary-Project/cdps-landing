@@ -53,6 +53,22 @@ export async function POST(req: Request) {
       }, { status: 400 });
     }
 
+    if (data?.user?.id) {
+      const { error: profileError } = await admin
+        .from("profiles")
+        .upsert({
+          id: data.user.id,
+          nama,
+          email,
+          role: "admin",
+          is_active: true,
+        }, { onConflict: "id" });
+
+      if (profileError) {
+        console.error("Profile creation failed:", profileError);
+      }
+    }
+
     return NextResponse.json({ success: true });
   } catch (err) {
     return NextResponse.json({

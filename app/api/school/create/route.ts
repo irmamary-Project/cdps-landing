@@ -1,5 +1,9 @@
-import { createAdminClient } from "@/utils/supabase/admin";
+import { createClient } from "@supabase/supabase-js";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 export async function POST(req: Request) {
   try {
@@ -8,13 +12,21 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Nama sekolah wajib diisi" }, { status: 400 });
     }
 
-    const supabase = createAdminClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    const cookieStore = await cookies();
+    const sbCookie = cookieStore.get("sb");
+    if (!sbCookie) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    const { data: school, error: schoolError } = await supabase
+    let sessionData: { access_token: string; refresh_token?: string };
+    try { sessionData = JSON.parse(sbCookie.value); } catch { return NextResponse.json({ error: "Unauthorized" }, { status: 401 }); }
+
+    const supabase = createClient(supabaseUrl, supabaseAnonKey, { auth: { persistSession: false } });
+    await supabase.auth.setSession({ access_token: sessionData.access_token, refresh_token: sessionData.refresh_token ?? "" });
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+    const admin = createClient(supabaseUrl, process.env.SUPABASE_SERVICE_ROLE_KEY!, { auth: { persistSession: false } });
+
+    const { data: school, error: schoolError } = await admin
       .from("schools")
       .insert({ name, address, phone })
       .select()
@@ -24,7 +36,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: schoolError?.message || "Gagal membuat sekolah" }, { status: 500 });
     }
 
-    const { error: profileError } = await supabase
+    const { error: profileError } = await admin
       .from("profiles")
       .update({ school_id: school.id })
       .eq("id", user.id);

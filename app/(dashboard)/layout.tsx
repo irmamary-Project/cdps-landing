@@ -32,8 +32,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
     .eq("id", user.id)
     .single();
 
-  if (!profile) redirect("/login");
-  if (!profile.school_id) redirect("/onboarding");
+  if (!profile?.school_id) redirect("/onboarding");
 
   return (
     <DashboardShell profile={profile}>
