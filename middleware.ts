@@ -6,7 +6,6 @@ const authRoutes = ["/login", "/register", "/forgot-password", "/auth/callback"]
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-
   const supabaseResponse = NextResponse.next({ request });
 
   const supabase = createServerClient(
@@ -16,14 +15,13 @@ export async function middleware(request: NextRequest) {
       cookies: {
         getAll() { return request.cookies.getAll(); },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
           cookiesToSet.forEach(({ name, value, options }) => supabaseResponse.cookies.set(name, value, options));
         },
       },
     },
   );
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user }, error } = await supabase.auth.getUser();
 
   if (publicRoutes.some((r) => pathname === r || pathname.startsWith(r + "/"))) {
     return supabaseResponse;
@@ -33,7 +31,7 @@ export async function middleware(request: NextRequest) {
     return supabaseResponse;
   }
 
-  if (!user) {
+  if (!user || error) {
     const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("redirect", pathname);
     return NextResponse.redirect(loginUrl);
