@@ -259,20 +259,38 @@ function RiwayatSection() {
         </div>
       </div>
     </div>
-    {Object.entries(grouped).length === 0 ? <div className="bg-white rounded-xl p-8 text-center text-sm text-gray-400 border border-gray-100">Tidak ada laporan</div>
-    : <div className="space-y-6">{Object.entries(grouped).map(([nama, reports]) => <div key={nama} className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-      <div className="p-4 sm:p-5 border-b border-gray-100 bg-gray-50/50"><h2 className="text-sm font-bold text-gray-900">{nama}</h2><p className="text-xs text-gray-400">{reports.length} laporan</p></div>
-      <div className="divide-y divide-gray-50">{(reports as any[]).map((r: any) => <div key={r.id} className="p-4 sm:p-5 flex items-start justify-between gap-4 hover:bg-gray-50/50">
-        <div className="flex items-center gap-3 min-w-0">
-          <Avatar name={r.students?.nama || ""} size="xs" />
-          <div className="min-w-0"><div className="flex items-center gap-2"><span className="text-sm font-semibold text-gray-900">{r.tanggal}</span><span className="text-xs text-gray-400">· {r.sesi}</span></div><p className="text-xs text-gray-500 mt-1 line-clamp-2">{r.observasi_guru}</p></div>
-        </div>
-        <div className="flex items-center gap-2 flex-shrink-0">
-          <span className="text-sm">{MOOD_EMOJI_MAP[r.mood_datang] || "–"}</span>
-          <span className={`text-xs font-bold px-2 py-1 rounded-full ${r.kehadiran === "Hadir" ? "bg-green-50 text-green-600" : r.kehadiran === "Izin" ? "bg-yellow-50 text-yellow-600" : "bg-red-50 text-red-600"}`}>{r.kehadiran}</span>
-        </div>
-      </div>)}</div>
-    </div>)}</div>
+    {Object.entries(grouped).length === 0
+      ? <div className="bg-white rounded-xl p-8 text-center text-sm text-gray-400 border border-gray-100">Tidak ada laporan</div>
+      : <div className="space-y-6">
+          {Object.entries(grouped).map(([nama, reports]) => (
+            <div key={nama} className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+              <div className="p-4 sm:p-5 border-b border-gray-100 bg-gray-50/50">
+                <h2 className="text-sm font-bold text-gray-900">{nama}</h2>
+                <p className="text-xs text-gray-400">{reports.length} laporan</p>
+              </div>
+              <div className="divide-y divide-gray-50">
+                {(reports as any[]).map((r: any) => (
+                  <div key={r.id} className="p-4 sm:p-5 flex items-start justify-between gap-4 hover:bg-gray-50/50">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <Avatar name={r.students?.nama || ""} size="xs" />
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-semibold text-gray-900">{r.tanggal}</span>
+                          <span className="text-xs text-gray-400">· {r.sesi}</span>
+                        </div>
+                        <p className="text-xs text-gray-500 mt-1 line-clamp-2">{r.observasi_guru}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      <span className="text-sm">{MOOD_EMOJI_MAP[r.mood_datang] || "–"}</span>
+                      <span className={`text-xs font-bold px-2 py-1 rounded-full ${r.kehadiran === "Hadir" ? "bg-green-50 text-green-600" : r.kehadiran === "Izin" ? "bg-yellow-50 text-yellow-600" : "bg-red-50 text-red-600"}`}>{r.kehadiran}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>}
   </div>;
 }
 
