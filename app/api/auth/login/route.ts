@@ -1,5 +1,4 @@
 import { createClient } from "@supabase/supabase-js";
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -55,23 +54,21 @@ export async function POST(req: Request) {
 
     const { access_token, refresh_token, expires_at } = data.session;
 
-    const cookieStore = await cookies();
-
     const sessionData = JSON.stringify({
       access_token,
       refresh_token,
       expires_at,
     });
 
-    cookieStore.set("sb", sessionData, {
+    const response = NextResponse.redirect(new URL("/dashboard", req.url), { status: 303 });
+    response.cookies.set("sb", sessionData, {
       httpOnly: true,
       secure: true,
       sameSite: "lax",
       path: "/",
       maxAge: 60 * 60 * 24 * 7,
     });
-
-    return NextResponse.redirect(new URL("/dashboard", req.url), { status: 303 });
+    return response;
   } catch (err) {
     const msg = err instanceof Error ? err.message : "Terjadi kesalahan server";
     const url = new URL("/login", req.url);
