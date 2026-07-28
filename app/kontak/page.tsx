@@ -9,11 +9,34 @@ import { Icon } from "@/components/decorative/FeatureIcon";
 
 export default function KontakPage() {
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [form, setForm] = useState({ nama: "", email: "", sekolah: "", pesan: "" });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSent(true);
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await fetch("/api/kontak", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Gagal mengirim pesan");
+      }
+
+      window.open(data.waUrl, "_blank", "noopener");
+      setSent(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Terjadi kesalahan. Silakan coba lagi.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -164,11 +187,15 @@ export default function KontakPage() {
                             placeholder="Tulis pesan Anda..."
                           />
                         </div>
+                        {error && (
+                          <p className="text-sm text-red-600 bg-red-50 px-4 py-3 rounded-xl">{error}</p>
+                        )}
                         <button
                           type="submit"
-                          className="w-full bg-primary hover:bg-primary-light text-white font-bold px-6 py-3.5 rounded-xl text-sm transition-all hover:shadow-lg"
+                          disabled={loading}
+                          className="w-full bg-primary hover:bg-primary-light disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold px-6 py-3.5 rounded-xl text-sm transition-all hover:shadow-lg"
                         >
-                          Kirim Pesan
+                          {loading ? "Mengirim..." : "Kirim Pesan"}
                         </button>
                       </form>
                     </>

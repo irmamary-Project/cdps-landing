@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://lumizo.my.id/sitemap.xml
+Sitemap: https://cdps.lumizo.my.id/sitemap.xml
