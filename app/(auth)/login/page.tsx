@@ -2,38 +2,14 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [serverError, setServerError] = useState("");
+  const searchParams = useSearchParams();
+  const errorParam = searchParams.get("error");
+
   const [loading, setLoading] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setServerError("");
-
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-      redirect: "manual",
-    });
-
-    if (res.status === 303 || res.type === "opaqueredirect") {
-      window.location.href = "/dashboard";
-    } else {
-      const text = await res.text();
-      try {
-        const data = JSON.parse(text);
-        setServerError(data.error || "Gagal masuk");
-      } catch {
-        setServerError(text || "Gagal masuk");
-      }
-      setLoading(false);
-    }
-  };
+  const [clientError, setClientError] = useState(errorParam || "");
 
   return (
     <div className="w-full max-w-sm">
@@ -41,15 +17,19 @@ export default function LoginPage() {
         <h1 className="text-xl font-bold text-gray-900 mb-1">Masuk</h1>
         <p className="text-sm text-gray-500 mb-6">Masuk ke akun CDPS Anda</p>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form
+          action="/api/auth/login"
+          method="POST"
+          onSubmit={() => setLoading(true)}
+          className="space-y-4"
+        >
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
             <input
               id="email"
+              name="email"
               type="email"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
               placeholder="contoh@email.com"
             />
@@ -59,17 +39,16 @@ export default function LoginPage() {
             <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Password</label>
             <input
               id="password"
+              name="password"
               type="password"
               required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
               placeholder="Minimal 6 karakter"
             />
           </div>
 
-          {serverError && (
-            <p className="text-sm text-red-600 bg-red-50 px-4 py-2.5 rounded-xl">{serverError}</p>
+          {clientError && (
+            <p className="text-sm text-red-600 bg-red-50 px-4 py-2.5 rounded-xl">{clientError}</p>
           )}
 
           <button

@@ -4,10 +4,26 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { email, password } = await req.json();
+    const ct = req.headers.get("content-type") || "";
+
+    let email: string;
+    let password: string;
+
+    if (ct.includes("application/x-www-form-urlencoded")) {
+      const form = await req.formData();
+      email = (form.get("email") as string) || "";
+      password = (form.get("password") as string) || "";
+    } else {
+      const json = await req.json();
+      email = json.email || "";
+      password = json.password || "";
+    }
 
     if (!email || !password) {
-      return NextResponse.json({ error: "Email dan password wajib diisi" }, { status: 400 });
+      return NextResponse.redirect(
+        new URL("/login?error=Email+dan+password+wajib+diisi", req.url),
+        { status: 303 },
+      );
     }
 
     const cookieStore = await cookies();
@@ -31,19 +47,30 @@ export async function POST(req: Request) {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
-      return NextResponse.json({
-        error: error.message === "Invalid login credentials" ? "Email atau password salah" : error.message,
-      }, { status: 401 });
+      return NextResponse.redirect(
+        new URL(
+          `/login?error=${error.message === "Invalid login credentials" ? "Email+atau+password+salah" : error.message}`,
+          req.url,
+        ),
+        { status: 303 },
+      );
     }
 
     if (!data.session) {
-      return NextResponse.json({ error: "Gagal mendapatkan sesi" }, { status: 500 });
+      return NextResponse.redirect(
+        new URL("/login?error=Gagal+mendapatkan+sesi", req.url),
+        { status: 303 },
+      );
     }
 
     return response;
   } catch (err) {
-    return NextResponse.json({
-      error: err instanceof Error ? err.message : "Terjadi kesalahan server",
-    }, { status: 500 });
+    return NextResponse.redirect(
+      new URL(
+        `/login?error=${err instanceof Error ? encodeURIComponent(err.message).replace(/%20/g, "+") : "Terjadi+kesalahan+server"}`,
+        req.url,
+      ),
+      { status: 303 },
+    );
   }
 }
