@@ -1,33 +1,46 @@
-import { createServerClient } from "@supabase/ssr";
+import { createClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-export async function GET(req: Request) {
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
+export async function GET() {
   const cookieStore = await cookies();
   const allCookies = cookieStore.getAll();
-  
-  const authCookie = allCookies.find(c => c.name.includes("auth-token"));
-  
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() { return cookieStore.getAll(); },
-        setAll() {},
-      },
-    },
-  );
+  const sbCookie = cookieStore.get("sb");
 
-  const { data, error } = await supabase.auth.getUser();
+  let sessionData: any = null;
+  let parsedOk = false;
+  if (sbCookie) {
+    try {
+      sessionData = JSON.parse(sbCookie.value);
+      parsedOk = true;
+    } catch {
+      sessionData = { error: "parse failed", raw: sbCookie.value.substring(0, 100) };
+    }
+  }
+
+  let user: any = null;
+  let getUserError: any = null;
+  if (sessionData?.access_token) {
+    try {
+      const supabase = createClient(supabaseUrl, supabaseAnonKey, { auth: { persistSession: false } });
+      await supabase.auth.setSession({ access_token: sessionData.access_token, refresh_token: sessionData.refresh_token ?? "" });
+      const { data, error } = await supabase.auth.getUser();
+      user = data?.user ? { email: data.user.email, id: data.user.id } : null;
+      getUserError = error?.message ?? null;
+    } catch (e: any) {
+      getUserError = e.message;
+    }
+  }
 
   return NextResponse.json({
-    hasAuthCookie: !!authCookie,
-    authCookieName: authCookie?.name || null,
-    authCookieLength: authCookie?.value.length || 0,
-    authCookiePrefix: authCookie?.value.substring(0, 10) || null,
-    user: data?.user?.email || null,
-    error: error?.message || null,
-    allCookieNames: allCookies.map(c => c.name),
+    cookieNames: allCookies.map(c => c.name),
+    hasSbCookie: !!sbCookie,
+    sbValuePreview: sbCookie?.value.substring(0, 80) ?? null,
+    parsedOk,
+    user,
+    getUserError,
   });
 }
