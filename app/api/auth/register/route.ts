@@ -7,7 +7,9 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Konfigurasi database belum lengkap." }, { status: 500 });
     }
 
-    const { nama, email, password } = await req.json();
+    const body = await req.json();
+    console.log("[register] body:", body);
+    const { nama, email, password } = body;
 
     if (!nama || !email || !password) {
       return NextResponse.json({ error: "Nama, email, dan password wajib diisi" }, { status: 400 });
