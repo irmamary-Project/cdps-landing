@@ -1,4 +1,3 @@
-import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -20,40 +19,37 @@ export async function POST(req: Request) {
       return NextResponse.json({ config: "env vars tidak ditemukan" }, { status: 500 });
     }
 
-    const supabase = createClient(supabaseUrl, supabaseKey, {
-      auth: { autoRefreshToken: false, persistSession: false },
+    // Call GoTrue API directly to see actual HTTP response
+    const gotrueUrl = `${supabaseUrl}/auth/v1/signup`;
+    const gotrueBody = JSON.stringify({
+      email,
+      password,
+      data: { nama, role: "admin" },
     });
 
-    let signUpResult;
+    let fetchResp;
     try {
-      signUpResult = await supabase.auth.signUp({
-        email,
-        password,
-        options: { data: { nama, role: "admin" } },
+      fetchResp = await fetch(gotrueUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: supabaseKey,
+        },
+        body: gotrueBody,
       });
-    } catch (signUpCatchErr) {
+    } catch (fetchErr) {
       return NextResponse.json({
-        phase: "signUp threw",
-        name: signUpCatchErr instanceof Error ? signUpCatchErr.name : typeof signUpCatchErr,
-        message: signUpCatchErr instanceof Error ? signUpCatchErr.message : String(signUpCatchErr),
+        phase: "fetch threw",
+        message: fetchErr instanceof Error ? fetchErr.message : String(fetchErr),
       }, { status: 500 });
     }
 
-    if (signUpResult.error) {
-      return NextResponse.json({
-        phase: "signUp returned error",
-        message: signUpResult.error.message,
-        code: signUpResult.error.code,
-        statusCode: signUpResult.error.status,
-        name: signUpResult.error.name,
-        supabaseUrl: supabaseUrl,
-        anonKeyPrefix: supabaseKey.substring(0, 20) + "...",
-      }, { status: 400 });
-    }
-
+    const responseText = await fetchResp.text();
     return NextResponse.json({
-      phase: "success",
-      userId: signUpResult.data?.user?.id,
+      phase: "direct fetch",
+      status: fetchResp.status,
+      body: responseText,
+      supabaseUrl,
     });
   } catch (err) {
     return NextResponse.json({
