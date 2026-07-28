@@ -16,7 +16,7 @@ const NAV = [
   { href: "/dashboard/manajemen", label: "Manajemen", icon: Users },
   { href: "/dashboard/monitoring", label: "Monitoring", icon: MapPin },
   { href: "/dashboard/notifikasi", label: "Notifikasi", icon: Bell },
-  { href: "/dashboard/ortu", label: "Portal Orang Tua", icon: Eye },
+  // { href: "/dashboard/ortu", label: "Portal Orang Tua", icon: Eye },
   { href: "/dashboard/settings", label: "Pengaturan", icon: Settings },
 ];
 
