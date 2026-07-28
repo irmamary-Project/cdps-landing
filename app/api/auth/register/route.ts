@@ -20,35 +20,31 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Konfigurasi database belum lengkap." }, { status: 500 });
     }
 
-    const supabase = createClient(supabaseUrl, supabaseKey, {
-      auth: { autoRefreshToken: false, persistSession: false },
+    // Gunakan fetch langsung ke GoTrue API
+    const signUpRes = await fetch(`${supabaseUrl}/auth/v1/signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        apikey: supabaseKey,
+      },
+      body: JSON.stringify({ email, password, data: { nama, role: "admin" } }),
     });
 
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: { nama, role: "admin" } },
-    });
-
-    if (error) {
-      return NextResponse.json({
-        error: error.message === "User already registered" ? "Email sudah terdaftar" : error.message,
-        name: error.name,
-        status: error.status,
-        code: error.code,
-      }, { status: 400 });
+    if (!signUpRes.ok) {
+      const body = await signUpRes.text();
+      return NextResponse.json({ error: `GoTrue error: ${body}` }, { status: 400 });
     }
 
-    if (serviceRoleKey && data.user) {
+    const signUpData = await signUpRes.json();
+
+    // Auto-confirm user
+    if (serviceRoleKey && signUpData?.id) {
       const admin = createClient(supabaseUrl, serviceRoleKey, {
         auth: { autoRefreshToken: false, persistSession: false },
       });
-      const { error: confirmErr } = await admin.auth.admin.updateUserById(data.user.id, {
+      await admin.auth.admin.updateUserById(signUpData.id, {
         email_confirm: true,
       });
-      if (confirmErr) {
-        console.warn("Auto-confirm gagal:", confirmErr.message);
-      }
     }
 
     return NextResponse.json({ success: true });
