@@ -72,7 +72,7 @@ BEGIN
   VALUES (
     NEW.id,
     (meta->>'school_id')::uuid,
-    COALESCE((meta->>'role')::user_role, 'admin'::user_role),
+    COALESCE((meta->>'role')::public.user_role, 'admin'::public.user_role),
     COALESCE(meta->>'nama', NEW.email),
     NEW.email
   );

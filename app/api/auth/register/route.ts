@@ -20,31 +20,37 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Konfigurasi database belum lengkap." }, { status: 500 });
     }
 
-    // Gunakan fetch langsung ke GoTrue API
-    const signUpRes = await fetch(`${supabaseUrl}/auth/v1/signup`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        apikey: supabaseKey,
-      },
-      body: JSON.stringify({ email, password, data: { nama, role: "admin" } }),
-    });
-
-    if (!signUpRes.ok) {
-      const body = await signUpRes.text();
-      return NextResponse.json({ error: `GoTrue error: ${body}` }, { status: 400 });
-    }
-
-    const signUpData = await signUpRes.json();
-
-    // Auto-confirm user
-    if (serviceRoleKey && signUpData?.id) {
-      const admin = createClient(supabaseUrl, serviceRoleKey, {
+    if (!serviceRoleKey) {
+      const supabase = createClient(supabaseUrl, supabaseKey, {
         auth: { autoRefreshToken: false, persistSession: false },
       });
-      await admin.auth.admin.updateUserById(signUpData.id, {
-        email_confirm: true,
+      const { error } = await supabase.auth.signUp({
+        email, password,
+        options: { data: { nama, role: "admin" } },
       });
+      if (error) {
+        return NextResponse.json({
+          error: error.message === "User already registered" ? "Email sudah terdaftar" : error.message,
+        }, { status: 400 });
+      }
+      return NextResponse.json({ success: true, message: "Cek email untuk konfirmasi" });
+    }
+
+    const admin = createClient(supabaseUrl, serviceRoleKey, {
+      auth: { autoRefreshToken: false, persistSession: false },
+    });
+
+    const { data, error } = await admin.auth.admin.createUser({
+      email,
+      password,
+      email_confirm: true,
+      user_metadata: { nama, role: "admin" },
+    });
+
+    if (error) {
+      return NextResponse.json({
+        error: error.message === "User already registered" ? "Email sudah terdaftar" : error.message,
+      }, { status: 400 });
     }
 
     return NextResponse.json({ success: true });
