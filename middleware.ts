@@ -3,18 +3,17 @@ import { NextResponse, type NextRequest } from "next/server";
 const publicRoutes = ["/", "/blog", "/kontak", "/kebijakan-privasi", "/syarat-ketentuan", "/api"];
 const authRoutes = ["/login", "/register", "/forgot-password", "/auth/callback"];
 
-export async function middleware(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (publicRoutes.some((r) => pathname === r || pathname.startsWith(r + "/"))) {
-    return NextResponse.next({ request });
+    return NextResponse.next();
   }
 
   if (authRoutes.some((r) => pathname.startsWith(r))) {
-    return NextResponse.next({ request });
+    return NextResponse.next();
   }
 
-  // Check if the auth cookie exists
   const allCookies = request.cookies.getAll();
   const authCookie = allCookies.find((c) => c.name.includes("auth-token"));
 
@@ -24,7 +23,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  return NextResponse.next({ request });
+  return NextResponse.next();
 }
 
 export const config = {
