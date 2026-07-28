@@ -3,6 +3,10 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      return NextResponse.json({ error: "Konfigurasi database belum lengkap. Hubungi admin." }, { status: 500 });
+    }
+
     const { sekolah, nama, email, password } = await req.json();
 
     if (!sekolah || !nama || !email || !password) {
