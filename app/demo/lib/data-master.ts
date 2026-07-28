@@ -32,3 +32,35 @@ export const DEMO_STATS = {
   portofolio_bulan_ini: 256,
   kehadiran_hari_ini: "94%",
 };
+
+export const DEMO_TEACHERS = [
+  { id: "g1", nama: "Rina Wijaya", role: "Wali Kelas KB", email: "rina@tkpelita.sch.id", wa: "0812-1111-0001", status: "Aktif" },
+  { id: "g2", nama: "Sari Indah", role: "Wali Kelas TK A", email: "sari@tkpelita.sch.id", wa: "0812-1111-0002", status: "Aktif" },
+  { id: "g3", nama: "Budi Hartono", role: "Wali Kelas TK B", email: "budi@tkpelita.sch.id", wa: "0812-1111-0003", status: "Aktif" },
+  { id: "g4", nama: "Dewi Lestari", role: "Guru Pendamping", email: "dewi@tkpelita.sch.id", wa: "0812-1111-0004", status: "Aktif" },
+  { id: "g5", nama: "Agus Prasetyo", role: "Guru Olahraga", email: "agus@tkpelita.sch.id", wa: "0812-1111-0005", status: "Izin" },
+  { id: "g6", nama: "Fitri Handayani", role: "Guru Seni", email: "fitri@tkpelita.sch.id", wa: "0812-1111-0006", status: "Aktif" },
+  { id: "g7", nama: "Ani Rahmawati", role: "Staff Administrasi", email: "ani@tkpelita.sch.id", wa: "0812-1111-0007", status: "Aktif" },
+];
+
+export const DEMO_GROWTH_RECORDS: Record<string, Array<{ bulan: string; bb: number; tb: number }>> = {
+  s1: [
+    { bulan: "Jul '25", bb: 12.5, tb: 88 },
+    { bulan: "Okt '25", bb: 13.0, tb: 90 },
+    { bulan: "Jan '26", bb: 13.8, tb: 92 },
+    { bulan: "Apr '26", bb: 14.2, tb: 94 },
+    { bulan: "Jul '26", bb: 15.0, tb: 96 },
+  ],
+  s2: [
+    { bulan: "Jul '25", bb: 15.2, tb: 98 },
+    { bulan: "Okt '25", bb: 15.8, tb: 100 },
+    { bulan: "Jan '26", bb: 16.5, tb: 102 },
+    { bulan: "Apr '26", bb: 17.0, tb: 103 },
+    { bulan: "Jul '26", bb: 17.8, tb: 105 },
+  ],
+  s3: [
+    { bulan: "Jan '26", bb: 10.2, tb: 78 },
+    { bulan: "Apr '26", bb: 10.8, tb: 81 },
+    { bulan: "Jul '26", bb: 11.5, tb: 84 },
+  ],
+};

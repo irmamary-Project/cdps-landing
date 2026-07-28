@@ -4,127 +4,23 @@ import { blogPosts } from "@/lib/blog-posts";
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://cdps.lumizo.my.id";
 
+  const demoPages = [
+    "daily-report", "laporan", "portofolio", "manajemen-siswa", "manajemen-kelas",
+    "manajemen-guru", "notifikasi", "riwayat-daily-report", "riwayat-portofolio",
+    "absensi", "cctv", "ortu", "tracking-fisik", "settings",
+  ] as const;
+
   const staticPages = [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: "weekly" as const,
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/blog`,
-      lastModified: new Date(),
-      changeFrequency: "weekly" as const,
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/kontak`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/demo`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/demo/daily-report`,
+    { url: baseUrl, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 1 },
+    { url: `${baseUrl}/blog`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.9 },
+    { url: `${baseUrl}/kontak`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.6 },
+    { url: `${baseUrl}/demo`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.8 },
+    ...demoPages.map((page) => ({
+      url: `${baseUrl}/demo/${page}` as const,
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
       priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/demo/laporan`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/demo/portofolio`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/demo/manajemen-siswa`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/demo/manajemen-kelas`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/demo/notifikasi`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/demo/riwayat-daily-report`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/demo/portofolio`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/demo/manajemen-siswa`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/demo/manajemen-kelas`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/demo/notifikasi`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/demo/riwayat-daily-report`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/demo/riwayat-portofolio`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/demo/absensi`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/demo/cctv`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/demo/ortu`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.5,
-    },
+    })),
   ];
 
   const blogPages = blogPosts.map((post) => ({

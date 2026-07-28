@@ -17,6 +17,9 @@ import {
   Archive,
   MapPin,
   Eye,
+  UserCog,
+  Activity,
+  Settings,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -41,6 +44,9 @@ const NAV: NavItem[] = [
   { href: "/demo/cctv", label: "CCTV", icon: Camera, new: true },
   { href: "/demo/notifikasi", label: "Notifikasi", icon: Bell, new: true },
   { href: "/demo/ortu", label: "Portal Orang Tua", icon: Eye, new: true },
+  { href: "/demo/manajemen-guru", label: "Manajemen Guru", icon: UserCog, new: true },
+  { href: "/demo/tracking-fisik", label: "Tracking Fisik", icon: Activity, new: true },
+  { href: "/demo/settings", label: "Pengaturan", icon: Settings, new: true },
 ];
 
 export default function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {

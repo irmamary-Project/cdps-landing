@@ -1,7 +1,8 @@
 "use client";
 
 import StudentAvatar from "@/components/StudentAvatar";
-import { DEMO_LAPORAN, ASPEK_LIST, CAPAIAN_OPTIONS } from "../lib/data";
+import { DEMO_SCHOOL, DEMO_LAPORAN, ASPEK_LIST, CAPAIAN_OPTIONS } from "../lib/data";
+import { Printer } from "lucide-react";
 
 const colorMap: Record<string, string> = {
   BSB: "bg-green-100 text-green-700",
@@ -15,12 +16,30 @@ export default function LaporanPage() {
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto">
-      <div className="mb-6">
-        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Laporan Triwulan</h1>
-        <p className="text-gray-500 text-sm mt-1">Laporan perkembangan siswa per triwulan</p>
+      <div className="flex items-center justify-between mb-6 flex-wrap gap-3 no-print">
+        <div>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Laporan Triwulan</h1>
+          <p className="text-gray-500 text-sm mt-1">Laporan perkembangan siswa per triwulan</p>
+        </div>
+        <button
+          onClick={() => window.print()}
+          className="inline-flex items-center gap-2 bg-primary hover:bg-primary-light text-white text-sm font-bold px-5 py-2.5 rounded-full transition-all"
+        >
+          <Printer size={16} />
+          Cetak PDF
+        </button>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+      <div className="print-header hidden">
+        <div className="text-center mb-6">
+          <h2 className="text-xl font-bold text-gray-900">{DEMO_SCHOOL.name}</h2>
+          <p className="text-sm text-gray-500">{DEMO_SCHOOL.address}</p>
+          <p className="text-sm text-gray-500">{DEMO_SCHOOL.phone}</p>
+        </div>
+        <hr className="mb-6" />
+      </div>
+
+      <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden laporan-card">
         <div className="p-5 sm:p-6 border-b border-gray-100">
           <div className="flex items-center gap-3">
             <StudentAvatar name={l.siswa.nama} size="lg" />
@@ -72,7 +91,9 @@ export default function LaporanPage() {
               Status:{" "}
               <span className="font-semibold text-green-600">{l.status.toUpperCase()}</span>
             </span>
-            <span className="text-xs text-gray-300">{l.siswa.nama} · {l.periode} {l.tahun}</span>
+            <span className="text-xs text-gray-400">
+              {DEMO_SCHOOL.name} · {l.siswa.nama} · {l.periode} {l.tahun}
+            </span>
           </div>
         </div>
       </div>
