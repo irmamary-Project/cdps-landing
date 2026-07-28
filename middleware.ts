@@ -1,4 +1,3 @@
-import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 const publicRoutes = ["/", "/blog", "/kontak", "/kebijakan-privasi", "/syarat-ketentuan", "/api"];
@@ -6,38 +5,26 @@ const authRoutes = ["/login", "/register", "/forgot-password", "/auth/callback"]
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const supabaseResponse = NextResponse.next({ request });
-
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() { return request.cookies.getAll(); },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => supabaseResponse.cookies.set(name, value, options));
-        },
-      },
-    },
-  );
-
-  const { data: { user }, error } = await supabase.auth.getUser();
 
   if (publicRoutes.some((r) => pathname === r || pathname.startsWith(r + "/"))) {
-    return supabaseResponse;
+    return NextResponse.next({ request });
   }
 
   if (authRoutes.some((r) => pathname.startsWith(r))) {
-    return supabaseResponse;
+    return NextResponse.next({ request });
   }
 
-  if (!user || error) {
+  // Check if the auth cookie exists
+  const allCookies = request.cookies.getAll();
+  const authCookie = allCookies.find((c) => c.name.includes("auth-token"));
+
+  if (!authCookie) {
     const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("redirect", pathname);
     return NextResponse.redirect(loginUrl);
   }
 
-  return supabaseResponse;
+  return NextResponse.next({ request });
 }
 
 export const config = {
