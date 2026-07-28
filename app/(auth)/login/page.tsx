@@ -6,29 +6,32 @@ import Link from "next/link";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [serverError, setServerError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
+    setServerError("");
 
     const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
+      redirect: "follow",
     });
 
-    const data = await res.json();
-
-    if (!res.ok) {
-      setError(data.error || "Gagal masuk");
-      setLoading(false);
-      return;
+    if (res.redirected) {
+      window.location.href = res.url;
+    } else {
+      const url = new URL(res.url);
+      if (url.searchParams.has("error")) {
+        setServerError(decodeURIComponent(url.searchParams.get("error")!));
+        setLoading(false);
+      } else {
+        window.location.href = "/dashboard";
+      }
     }
-
-    window.location.href = "/dashboard";
   };
 
   return (
@@ -64,8 +67,8 @@ export default function LoginPage() {
             />
           </div>
 
-          {error && (
-            <p className="text-sm text-red-600 bg-red-50 px-4 py-2.5 rounded-xl">{error}</p>
+          {serverError && (
+            <p className="text-sm text-red-600 bg-red-50 px-4 py-2.5 rounded-xl">{serverError}</p>
           )}
 
           <button

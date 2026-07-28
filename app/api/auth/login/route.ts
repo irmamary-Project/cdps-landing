@@ -7,11 +7,13 @@ export async function POST(req: Request) {
     const { email, password } = await req.json();
 
     if (!email || !password) {
-      return NextResponse.json({ error: "Email dan password wajib diisi" }, { status: 400 });
+      return NextResponse.redirect(
+        new URL("/login?error=Email+dan+password+wajib+diisi", req.url),
+      );
     }
 
     const cookieStore = await cookies();
-    const response = NextResponse.json({ success: true });
+    const response = NextResponse.redirect(new URL("/dashboard", req.url));
 
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -31,15 +33,21 @@ export async function POST(req: Request) {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
-      return NextResponse.json({
-        error: error.message === "Invalid login credentials" ? "Email atau password salah" : error.message,
-      }, { status: 401 });
+      return NextResponse.redirect(
+        new URL(
+          `/login?error=${error.message === "Invalid login credentials" ? "Email+atau+password+salah" : error.message}`,
+          req.url,
+        ),
+      );
     }
 
     return response;
   } catch (err) {
-    return NextResponse.json({
-      error: err instanceof Error ? err.message : "Terjadi kesalahan server",
-    }, { status: 500 });
+    return NextResponse.redirect(
+      new URL(
+        `/login?error=${err instanceof Error ? err.message : "Terjadi+kesalahan+server"}`,
+        req.url,
+      ),
+    );
   }
 }
