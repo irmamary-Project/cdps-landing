@@ -1,6 +1,9 @@
-import { createServerClient } from "@supabase/ssr";
+import { createClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 export async function POST(req: Request) {
   try {
@@ -27,23 +30,9 @@ export async function POST(req: Request) {
       );
     }
 
-    const cookieStore = await cookies();
-    const response = NextResponse.redirect(new URL("/dashboard", req.url), { status: 303 });
-
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          getAll() { return cookieStore.getAll(); },
-          setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value, options }) => {
-              response.cookies.set(name, value, options);
-            });
-          },
-        },
-      },
-    );
+    const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+      auth: { persistSession: false },
+    });
 
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
@@ -64,7 +53,25 @@ export async function POST(req: Request) {
       );
     }
 
-    return response;
+    const { access_token, refresh_token, expires_at } = data.session;
+
+    const cookieStore = await cookies();
+
+    const sessionData = JSON.stringify({
+      access_token,
+      refresh_token,
+      expires_at,
+    });
+
+    cookieStore.set("sb", sessionData, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7,
+    });
+
+    return NextResponse.redirect(new URL("/dashboard", req.url), { status: 303 });
   } catch (err) {
     const msg = err instanceof Error ? err.message : "Terjadi kesalahan server";
     const url = new URL("/login", req.url);

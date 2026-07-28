@@ -1,25 +1,34 @@
-import { createServerClient } from "@supabase/ssr";
+import { createClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import DashboardShell from "./DashboardShell";
 
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const cookieStore = await cookies();
+  const sbCookie = cookieStore.get("sb");
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() { return cookieStore.getAll(); },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            cookieStore.set(name, value, options),
-          );
-        },
+  if (!sbCookie) {
+    redirect("/login");
+  }
+
+  let sessionData: { access_token: string; refresh_token: string; expires_at: number };
+  try {
+    sessionData = JSON.parse(sbCookie.value);
+  } catch {
+    redirect("/login");
+  }
+
+  const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+    global: {
+      headers: {
+        Authorization: `Bearer ${sessionData.access_token}`,
       },
     },
-  );
+    auth: { persistSession: false },
+  });
 
   const { data: { user } } = await supabase.auth.getUser();
 
