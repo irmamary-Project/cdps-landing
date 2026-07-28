@@ -35,7 +35,12 @@ export async function POST(req: Request) {
       const message = error.message === "User already registered"
         ? "Email sudah terdaftar"
         : error.message;
-      return NextResponse.json({ error: message }, { status: 400 });
+      return NextResponse.json({
+        error: message,
+        errName: error.name,
+        errStatus: error.status,
+        errCode: error.code,
+      }, { status: 400 });
     }
 
     // Auto-confirm user if service role key is available
@@ -43,9 +48,12 @@ export async function POST(req: Request) {
       const adminClient = createClient(supabaseUrl, serviceRoleKey, {
         auth: { autoRefreshToken: false, persistSession: false },
       });
-      await adminClient.auth.admin.updateUserById(data.user.id, {
+      const { error: confirmError } = await adminClient.auth.admin.updateUserById(data.user.id, {
         email_confirm: true,
       });
+      if (confirmError) {
+        return NextResponse.json({ warn: "User created but email confirmation failed", detail: confirmError.message }, { status: 200 });
+      }
     }
 
     return NextResponse.json({ success: true });
